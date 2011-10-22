@@ -78,11 +78,13 @@
 				$('#mainSettings').show();
 			});
 			
+			
 			// google maps
-			var latlng = new google.maps.LatLng(42.293, -71.264);
+			var latLng = new google.maps.LatLng(42.293, -71.264);
+			
 			var myOptions = {
 			  zoom: 8,
-			  center: latlng,
+			  center: latLng,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			var map = new google.maps.Map(document.getElementById("map_canvas"),
@@ -90,6 +92,7 @@
 			var input = document.getElementById('searchTextMap');	
 			var autocomplete = new google.maps.places.Autocomplete(input);
 			autocomplete.bindTo('bounds', map);
+
 			
 			// search for nearby locations
 			$('#searchButtonMap').click(function(){
@@ -131,7 +134,7 @@
 				  }
 				}
 				
-				 function createMarker(place) {
+				function createMarker(place) {
 					var placeLoc = place.geometry.location;
 					var marker = new google.maps.Marker({
 					  map: map,
@@ -147,9 +150,11 @@
 					$('#sendToGPS').click(function(){
 						alert('!!');
 					});
-				  }
+				}
+				  
 			});
 		});
+		
 	</script>
 </head>
 <body>
