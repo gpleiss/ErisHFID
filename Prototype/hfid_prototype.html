@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
+  #map_canvas { height: 100% }
+</style>
+	<title>GPS Connect Prototype</title>
+	<link href='hfid_prototype.css' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var TASKLIST = [{msg:"Search for a Trader Joes and send that address to your car", endpoint:"sendToGPS"}, 
+			{msg:"Add a new car to your cars list", endpoint:"addCar"}, {msg:"Send a destination from another application to your car", endpoint:"sendToGPSOther"}]
+			var END;
+			
+			$('#home').click(function(){
+				$('.task').hide();
+				$('.home').show();
+			});
+			
+			$('#swap').click(function(){
+				END = TASKLIST.shift();
+				$('#instructionText').html(END['msg']);
+				console.log(END);
+			});
+			
+			$('#GPSButton').click(function(){
+				$('.home').hide();
+				$('#GPSConnect').show();
+			});
+			
+			$('#recentDestButton').click(function(){
+				// hide all GPS Inners
+				$('.gpsInner').hide();
+				// display recent dest
+				$('#recentDest').show();
+			});
+			
+			$('#settingsButton').click(function(){
+				// hide all GPS Inners
+				$('.gpsInner').hide();
+				// display settings
+				$('#settings').show();
+			});
+			
+			$('#searchText').click(function(){
+				// if maps isnt shown show it
+				if (!$('#map').is(":visible")){
+					$('.gpsInner').hide();
+					// display map
+					$('#map').show();
+					//initialize();
+				}
+			});
+			// hide all tasks
+			$('.task').hide();
+		
+			$('.recentAddress').click(function(){
+				$('.gpsInner').hide();
+				$('#map').show();
+				$('#searchTextMap').val($(this).html().trim());
+				$('#searchButtonMap').click();
+			});
+			
+			$('#addCar').click(function(){
+				$('#mainSettings').hide();
+				$('#addCarDiv').show();
+			});
+			
+			$('#saveCar').click(function(){
+				var newCar = $('#newCarAlias').val()
+				$('#carList').append('<div class="car">'+newCar+'</div>');
+				$('#addCarDiv').hide();
+				$('#mainSettings').show();
+			});
+			
+			// google maps
+			var latlng = new google.maps.LatLng(42.293, -71.264);
+			var myOptions = {
+			  zoom: 8,
+			  center: latlng,
+			  mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			var map = new google.maps.Map(document.getElementById("map_canvas"),
+				myOptions);
+			var input = document.getElementById('searchTextMap');	
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			autocomplete.bindTo('bounds', map);
+			
+			// search for nearby locations
+			$('#searchButtonMap').click(function(){
+				$('#map_canvas').show();
+				var searchText = $('#searchTextMap');
+				var place = autocomplete.getPlace();
+				
+				if (searchText.val() != ''){
+					var latlng = new google.maps.LatLng(42.293, -71.264);
+					var myOptions = {
+					  zoom: 8,
+					  center: latlng,
+					  mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+					var request = {
+						location: latlng,
+						radius: '50000',
+						name: searchText.val()
+					  };
+					 
+					infowindow = new google.maps.InfoWindow();
+					var map = new google.maps.Map(document.getElementById("map_canvas"),
+						myOptions);
+					service = new google.maps.places.PlacesService(map);
+					
+					service.search(request, callback);
+				}
+				
+				
+				function callback(results, status) {
+					
+					console.log(results);
+					console.log(status);
+				  if (status == google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < results.length; i++) {
+					  var place = results[i];
+					  createMarker(results[i]); 
+					}
+				  }
+				}
+				
+				 function createMarker(place) {
+					var placeLoc = place.geometry.location;
+					var marker = new google.maps.Marker({
+					  map: map,
+					  position: place.geometry.location
+					});
+			 
+					google.maps.event.addListener(marker, 'click', function() {
+						var html=place.name+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+						infowindow.setContent(html);
+						infowindow.open(map, this);
+					});
+					
+					$('#sendToGPS').click(function(){
+						alert('!!');
+					});
+				  }
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="instructions" class="flash">
+		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
+	</div>
+	<div id="phone_background">
+		<div id="phone_header"></div>
+		<div id="phone">
+			<div class="home">
+			<input type="button" id="GPSButton" value="GPS Connect"/>
+			<input type="button" id="YelpButton" value="Yelp"/>
+			</div>
+			<div class="task" id="GPSConnect">
+				<div class="gpsConnectHeader">
+				GPS Connect
+				</div>
+				<div class="gpsInner" id="main">
+					<center style="margin-top:10px;">GPS Connect</center>
+					<input type="text" id="searchText"/> <input type='button' id="searchButton" value="Search"/>
+					<input type="button" id="recentDestButton" value="Recent Destinations"/> <input type="button" id="settingsButton" value="Settings"/>
+				</div>
+				<div class="gpsInner" id="settings" style="display:none;">
+					<div id="mainSettings">
+					Address Highlighting <br/>
+					<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
+					<br/>
+					Cars
+					<div id="carList">
+						<div class="car">Toyota</div>
+						<div class="car">Honda</div>
+						<div class="car">Ford</div>
+					</div>
+					<div><input type='button' id="addCar" value="Add Car"/></div>
+					</div>
+					<div id="addCarDiv" style="display:none;">
+						Car email <br/>
+						<input type="text" id="newCarEmail"/>
+						<br/>
+						<br/>
+						Car Alias<br/>
+						<input type="text" id="newCarAlias"/>
+						<br/>
+						<input id="saveCar" type="button" value="Save"/>
+					</div>
+				</div>
+				<div class="gpsInner" id="recentDest" style="display:none;">
+					<!-- Don't put addresses in recentAddress or else google places name search won't work-->
+					<div class="recentAddress">
+						Olin College 
+					</div>
+					<div class="recentAddress">
+						Trader Joe
+					</div>
+				</div>
+				<div class="gpsInner" id="map" style="display:none; height:390px; width:280px;" >
+					<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
+					<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
+				</div>
+			</div>
+			<div class="task" id="Yelp">
+			</div>
+		</div>
+		<div id="buttons">
+			<a id="back" style="display: inline-block; width:22%; color:#FFFFFF;">Back</a>
+			<a id="menu" style="display: inline-block; width:22%; color:#FFFFFF;">Menu</a>
+			<a href="" id="home" style="display: inline-block; width:22%; color:#FFFFFF;">Home</a>
+			<a id="search" style="display: inline-block; width:22%; color:#FFFFFF;">Search</a>
+		</div>
+	</div>
+</body>
+</html>
