@@ -44,8 +44,9 @@ body {
 	top:40px;
 	left:10px;
 	right:10px;
-	height:430px;
-	width:280px;
+	height:410px;
+	width:260px;
+	padding:10px;
 	background: #E3E3E3;
 }
 
@@ -56,4 +57,11 @@ body {
 	right:10px;
 	height:30px;
 	background: #000000;
+}
+
+.car{
+	height:30px;
+	width:200px;
+	padding:20px;
+	background-color:#c7ccfe;
 }
