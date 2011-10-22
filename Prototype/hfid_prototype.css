@@ -1,18 +1,30 @@
+html{
+	background-color:#c5c5c5;
+}
+
 .clear{
 	clear:both;
 }
 
-body { font-family: "Varela", sans-serif }
+@font-face {
+  font-family: 'DroidSans';
+  src: url(DroidSans.ttf);
+}
 
 body {
-	font-family: helvetica, arial, sans-serif;
+	font-family: "DroidSans", arial, sans-serif;
 
+}
+
+p{
+	font-family: "DroidSans", arial, sans-serif;
 }
 
 /* FLASHES */
 .flash {
 	background: #CEE5F5;
-	border: 1px solid #AACBE2;
+	border: 0px solid #7bafd2;
+	border-bottom-width:2px;
 	padding: 10px;
 	margin-bottom: 15px;
 }
@@ -29,6 +41,7 @@ body {
 	margin-right:auto;
 	background: #3D3D3D;
 	position:relative;
+	border-radius:10px;
 }
 
 #buttons{
@@ -87,4 +100,25 @@ body {
 	width:200px;
 	padding:20px;
 	background-color:#c7ccfe;
+}
+
+#recentDestButton{
+	background-color:#b0cbec;
+	width:100px;
+	height:80px;
+	padding-top:20px;
+	margin-left:15px;
+	margin-right:10px;
+	margin-top:30px;
+	border-style:none;
+	font-family: "DroidSans", arial, sans-serif;
+}
+
+#settingsButton{
+	background-color:#b0cbec;
+	width:100px;
+	height:100px;
+	margin-right:20px;
+	border-style:none;
+	font-family: "DroidSans", arial, sans-serif;
 }
