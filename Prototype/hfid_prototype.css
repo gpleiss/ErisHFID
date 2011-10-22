@@ -59,6 +59,32 @@ body {
 	background: #000000;
 }
 
+#header_bar{
+	/*background: #3498e5;
+	background: -moz-linear-gradient(top, #3498e5 0%, #0844a2 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3498e5), color-stop(100%,#0844a2)); 
+	background: -webkit-linear-gradient(top, #3498e5 0%,#0844a2 100%); 
+	background: -o-linear-gradient(top, #3498e5 0%,#0844a2 100%); 
+	background: -ms-linear-gradient(top, #3498e5 0%,#0844a2 100%);
+	background: linear-gradient(top, #3498e5 0%,#0844a2 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498e5', endColorstr='#0844a2',GradientType=0 );
+	*/
+	margin-top:-10px;
+	margin-left:-10px;
+	margin-bottom:20px;
+	padding:30px 20px 30px 20px;
+	width:240px;
+	height:90px;
+}
+
+#header_text{
+	
+	font-weight:bold;
+	font-size:20px;
+	color:black;
+	
+}
+
 .car{
 	height:30px;
 	width:200px;
