@@ -33,6 +33,11 @@
 				$('#GPSConnect').show();
 			});
 			
+			$('#YelpButton').click(function(){
+				$('.home').hide();
+				$('#Yelp').show();
+			});
+			
 			$('#recentDestButton').click(function(){
 				// hide all GPS Inners
 				$('.gpsInner').hide();
@@ -248,6 +253,53 @@
 				</div>
 			</div>
 			<div class="task" id="Yelp">
+				<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">Trader Joe's</div>
+				<div id="yelp_information" style="height: 40%; font-size: .8em">
+					<div style="width: 30%; float: left">Trader Joe's</div>
+					<div style="width: 70%; float: left">
+						<table>
+							<tr><td width="100%">5 stars, 21 reviews</td></tr>
+							<tr><td>Grocery</td></tr>
+							<tr><td>Price: <span style="color: green">$$</span></td></tr>
+							<tr><td>Distance: 1.5 miles</td></tr>
+							<tr><td>
+								Needham Heights<br />
+								Highland Ave @ Avery Sq (59)<br />
+								Highland Ave @ Mark Lee Rd<br />
+							</td></tr>
+						</table>
+					</div>
+				</div>
+				<div id="yelp_buttons" style="font-size: .5em; text-align: center">
+					<div style="width: 20%; float: left">Add Tip</div>
+					<div style="width: 20%; float: left">Add Photo</div>
+					<div style="width: 20%; float: left">Check In</div>
+					<div style="width: 20%; float: left">Draft Review</div>
+					<div style="width: 20%; float: left">Bookmark</div>
+				</div>
+				<div id="yelp_map">
+					<table><tr>
+						<td style="margin-right: 10px">
+							<b><span style="color: blue">Map</span></b>
+						</td>
+						<td style="background-color: yellow">
+							<a href="hfid_prototype.html" style="text-decoration: none">
+								958 Highland Ave<br />Needham, MA 02494
+							</a>
+						</td>
+						<td>
+							Logo
+						</td>
+					</tr></table>
+				</div>
+				<div id="yelp_call">
+					<table><tr>
+						<td style="margin-right: 10px">
+							<b><span style="color: blue">Call</span></b>
+						</td>
+						<td>(781) 449-6993</td>
+					</tr></table>
+				</div>
 			</div>
 		</div>
 		<div id="buttons">
