@@ -171,6 +171,38 @@
 				}
 				  
 			});
+			
+			// Yelp "open with GPS connect" popup
+			$('#addressLink').click(function() {
+				// Center the popup
+				var padding = parseInt($('#phone').css("padding-left"), 10);
+				var phoneScreenTop = $('#phone').position().top - padding;
+				var phoneScreenLeft = $('#phone').position().left - padding;
+				var phoneScreenWidth = $('#phone').width() + 2*padding;
+				var phoneScreenHeight = $('#phone').height() + 2*padding;
+				var popupWidth = $('#yelpLinkPopup').width();
+				var popupHeight = $('#yelpLinkPopup').height();
+				$("#yelpLinkPopup").css({  
+					"position": "absolute",  
+					"top": phoneScreenHeight/2-popupHeight/2 - padding,  
+					"left": phoneScreenWidth/2-popupWidth/2 - padding
+				});
+				$("#yelpLinkPopupBackground").css({
+					"position": "absolute",
+					"width": phoneScreenWidth,  
+					"height": phoneScreenHeight, 
+					"top": 0,  
+					"left": 0 
+				})
+				// Open popup
+				$('#yelpLinkPopup').show();
+				$('#yelpLinkPopupBackground').fadeIn();
+				$('#back').click(function() {
+					$('#yelpLinkPopup').hide();
+					$('#yelpLinkPopupBackground').fadeOut();
+				});
+			});	
+			
 		});
 		
 	</script>
@@ -253,7 +285,9 @@
 				</div>
 			</div>
 			<div class="task" id="Yelp">
-				<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">Trader Joe's</div>
+				<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
+					Trader Joe's
+				</div>
 				<div id="yelp_information" style="height: 40%; font-size: .8em">
 					<div style="width: 30%; float: left">Trader Joe's</div>
 					<div style="width: 70%; float: left">
@@ -277,13 +311,13 @@
 					<div style="width: 20%; float: left">Draft Review</div>
 					<div style="width: 20%; float: left">Bookmark</div>
 				</div>
-				<div id="yelp_map">
+				<div id="yelp_address">
 					<table><tr>
 						<td style="margin-right: 10px">
 							<b><span style="color: blue">Map</span></b>
 						</td>
 						<td style="background-color: yellow">
-							<a href="hfid_prototype.html" style="text-decoration: none">
+							<a id="addressLink" style="text-decoration: none">
 								958 Highland Ave<br />Needham, MA 02494
 							</a>
 						</td>
@@ -291,7 +325,18 @@
 							Logo
 						</td>
 					</tr></table>
+				</div>  
+				<div id="extraText" style="display: none">
+					<h1>Hi!</h1>
 				</div>
+				<div id="yelpLinkPopup">    
+					<table>
+						<tr><td>Complete action using</td></tr>
+						<tr><td>Google Maps</td></tr>
+						<tr><td>GPS Connect</td></tr>
+					</table> 
+				</div>  
+				<div id="yelpLinkPopupBackground"></div>
 				<div id="yelp_call">
 					<table><tr>
 						<td style="margin-right: 10px">
@@ -309,7 +354,7 @@
 			<a id="menu" style="display: inline-block; width:23%;">
 				<img alt="menu" src="images/menu_button.jpg" style="width:100%">
 			</a>
-			<a href="" id="home" style="display: inline-block; width:23%;">
+			<a id="home" style="display: inline-block; width:23%;">
 				<img alt="home" src="images/home_button.jpg" style="width:100%">
 			</a>
 			<a id="search" style="display: inline-block; width:23%;">
