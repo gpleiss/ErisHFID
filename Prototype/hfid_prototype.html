@@ -10,7 +10,7 @@
 	<title>GPS Connect Prototype</title>
 	<link href='hfid_prototype.css' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var TASKLIST = [{msg:"Search for a Trader Joes and send that address to your car", endpoint:"sendToGPS"}, 
@@ -31,6 +31,11 @@
 			$('#GPSButton').click(function(){
 				$('.home').hide();
 				$('#GPSConnect').show();
+			});
+			
+			$('#YelpButton').click(function(){
+				$('.home').hide();
+				$('#Yelp').show();
 			});
 			
 			$('#recentDestButton').click(function(){
@@ -78,16 +83,18 @@
 				$('#mainSettings').show();
 			});
 			
+			
 			// google maps
-			var latlng = new google.maps.LatLng(42.293, -71.264);
-			var myOptions = {
-			  zoom: 8,
-			  center: latlng,
-			  mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			var map = new google.maps.Map(document.getElementById("map_canvas"),
-				myOptions);
+			var latLng = new google.maps.LatLng(42.293, -71.264);
+			var directionsService = new google.maps.DirectionsService();
 			var input = document.getElementById('searchTextMap');	
+			var directionsDisplay = new google.maps.DirectionsRenderer();
+			var myOptions = {
+					  zoom: 11,
+					  center: latLng,
+					  mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+			var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 			var autocomplete = new google.maps.places.Autocomplete(input);
 			autocomplete.bindTo('bounds', map);
 			
@@ -98,44 +105,56 @@
 				var place = autocomplete.getPlace();
 				
 				if (searchText.val() != ''){
-					var latlng = new google.maps.LatLng(42.293, -71.264);
 					var myOptions = {
-					  zoom: 8,
-					  center: latlng,
+					  zoom: 11,
+					  center: latLng,
 					  mapTypeId: google.maps.MapTypeId.ROADMAP
 					};
+					
+					infowindow = new google.maps.InfoWindow();
+					map = new google.maps.Map(document.getElementById("map_canvas"),
+						myOptions);
+					directionsDisplay.setMap(map);
+					
 					var request = {
-						location: latlng,
+						location: latLng,
 						radius: '50000',
 						name: searchText.val()
 					  };
 					 
-					infowindow = new google.maps.InfoWindow();
-					var map = new google.maps.Map(document.getElementById("map_canvas"),
-						myOptions);
 					service = new google.maps.places.PlacesService(map);
-					
 					service.search(request, callback);
+					
 				}
 				
 				
 				function callback(results, status) {
-					
+					createCurrentLocMarker();
 					console.log(results);
-					console.log(status);
-				  if (status == google.maps.places.PlacesServiceStatus.OK) {
-					for (var i = 0; i < results.length; i++) {
-					  var place = results[i];
-					  createMarker(results[i]); 
+					if (status == google.maps.places.PlacesServiceStatus.OK) {
+						for (var i = 0; i < results.length; i++) {
+							var place = results[i];
+							createPlaceMarker(results[i]); 
+							
+						}
 					}
-				  }
 				}
 				
-				 function createMarker(place) {
+				
+				function createCurrentLocMarker() {
+					var marker = new google.maps.Marker({
+						map: map,
+						position: map.getCenter(),
+						icon: "images/current_loc_marker.png"
+					});
+				}
+				
+				
+				function createPlaceMarker(place) {
 					var placeLoc = place.geometry.location;
 					var marker = new google.maps.Marker({
-					  map: map,
-					  position: place.geometry.location
+						map: map,
+						position: place.geometry.location
 					});
 			 
 					google.maps.event.addListener(marker, 'click', function() {
@@ -146,22 +165,76 @@
 							var html=place.name+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"	
 						
 						}
+
 						infowindow.setContent(html);
 						infowindow.open(map, this);
+						var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
+						drawDirections(latLng, end);
+						
+						$("#sendToGPS").live('click',function() {
+						 	alert('sending to gps');
+						});	
 					});
-					
-					$('#sendToGPS').click(function(){
-						alert('!!');
-					});
-				  }
+				}
+				  
 			});
+
+			function drawDirections(start, end){
+				console.log('draw directions');
+				var request = {
+					origin: start,
+					destination: end,
+					travelMode: google.maps.TravelMode.DRIVING
+				};
+				directionsService.route(request, function(result, status) {
+					console.log(result);
+					
+					if (status == google.maps.DirectionsStatus.OK) {
+						directionsDisplay.setDirections(result);
+					}
+				});
+			}
+			
+			// Yelp "open with GPS connect" popup
+			$('#addressLink').click(function() {
+				// Center the popup
+				var padding = parseInt($('#phone').css("padding-left"), 10);
+				var phoneScreenTop = $('#phone').position().top - padding;
+				var phoneScreenLeft = $('#phone').position().left - padding;
+				var phoneScreenWidth = $('#phone').width() + 2*padding;
+				var phoneScreenHeight = $('#phone').height() + 2*padding;
+				var popupWidth = $('#yelpLinkPopup').width();
+				var popupHeight = $('#yelpLinkPopup').height();
+				$("#yelpLinkPopup").css({  
+					"position": "absolute",  
+					"top": phoneScreenHeight/2-popupHeight/2 - padding,  
+					"left": phoneScreenWidth/2-popupWidth/2 - padding
+				});
+				$("#yelpLinkPopupBackground").css({
+					"position": "absolute",
+					"width": phoneScreenWidth,  
+					"height": phoneScreenHeight, 
+					"top": 0,  
+					"left": 0 
+				})
+				// Open popup
+				$('#yelpLinkPopup').show();
+				$('#yelpLinkPopupBackground').fadeIn();
+				$('#back').click(function() {
+					$('#yelpLinkPopup').hide();
+					$('#yelpLinkPopupBackground').fadeOut();
+				});
+			});	
+			
 		});
+		
 	</script>
 </head>
 <body>
 	<div id="instructions" class="flash">
 		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
 	</div>
+	<!--<div id='directions-panel'></div> -->
 	<div id="phone_background">
 		<div id="phone_header"></div>
 		<div id="phone">
@@ -233,9 +306,70 @@
 				<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
 					<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
 					<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
+	
 				</div>
 			</div>
 			<div class="task" id="Yelp">
+				<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
+					Trader Joe's
+				</div>
+				<div id="yelp_information" style="height: 40%; font-size: .8em">
+					<div style="width: 30%; float: left">Trader Joe's</div>
+					<div style="width: 70%; float: left">
+						<table>
+							<tr><td width="100%">5 stars, 21 reviews</td></tr>
+							<tr><td>Grocery</td></tr>
+							<tr><td>Price: <span style="color: green">$$</span></td></tr>
+							<tr><td>Distance: 1.5 miles</td></tr>
+							<tr><td>
+								Needham Heights<br />
+								Highland Ave @ Avery Sq (59)<br />
+								Highland Ave @ Mark Lee Rd<br />
+							</td></tr>
+						</table>
+					</div>
+				</div>
+				<div id="yelp_buttons" style="font-size: .5em; text-align: center">
+					<div style="width: 20%; float: left">Add Tip</div>
+					<div style="width: 20%; float: left">Add Photo</div>
+					<div style="width: 20%; float: left">Check In</div>
+					<div style="width: 20%; float: left">Draft Review</div>
+					<div style="width: 20%; float: left">Bookmark</div>
+				</div>
+				<div id="yelp_address">
+					<table><tr>
+						<td style="margin-right: 10px">
+							<b><span style="color: blue">Map</span></b>
+						</td>
+						<td style="background-color: yellow">
+							<a id="addressLink" style="text-decoration: none">
+								958 Highland Ave<br />Needham, MA 02494
+							</a>
+						</td>
+						<td>
+							Logo
+						</td>
+					</tr></table>
+				</div>  
+				<div id="extraText" style="display: none">
+					<h1>Hi!</h1>
+				</div>
+				<div id="yelpLinkPopup">    
+					<table>
+						<tr><td>Complete action using</td></tr>
+						<tr><td>Google Maps</td></tr>
+						<tr><td>GPS Connect</td></tr>
+					</table> 
+				</div>  
+				<div id="yelpLinkPopupBackground"></div>
+				<div id="yelp_call">
+					<table><tr>
+						<td style="margin-right: 10px">
+							<b><span style="color: blue">Call</span></b>
+						</td>
+						<td>(781) 449-6993</td>
+					</tr></table>
+				</div>
 			</div>
 		</div>
 		<div id="buttons">
@@ -245,7 +379,7 @@
 			<a id="menu" style="display: inline-block; width:23%;">
 				<img alt="menu" src="images/menu_button.jpg" style="width:100%">
 			</a>
-			<a href="" id="home" style="display: inline-block; width:23%;">
+			<a id="home" style="display: inline-block; width:23%;">
 				<img alt="home" src="images/home_button.jpg" style="width:100%">
 			</a>
 			<a id="search" style="display: inline-block; width:23%;">
