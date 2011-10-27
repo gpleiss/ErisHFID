@@ -177,7 +177,7 @@ p{
 }  
 
 #cargps{
-	position:absolute;
+	float:right;
 	top:40px;
 	left:10px;
 	right:10px;

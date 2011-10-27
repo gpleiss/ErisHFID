@@ -156,9 +156,16 @@
 						map: map,
 						position: place.geometry.location
 					});
-					
-			 		google.maps.event.addListener(marker, 'click', function() {
-						var html=place.name+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			 
+					google.maps.event.addListener(marker, 'click', function() {
+						if (place.rating!="undefined"){
+							var html=place.name+"<br />"+place.rating+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"	
+						}
+						else{
+							var html=place.name+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"	
+						
+						}
+
 						infowindow.setContent(html);
 						infowindow.open(map, this);
 						var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
@@ -255,7 +262,7 @@
 						
 						<div id="header_bar">
 							<center>
-								<img src="images/logo.PNG" width="40" height="40">
+								<img src="images/logo.png" width="40" height="40">
 								<p id="header_text">GPS Connect</p>
 							</center>
 						</div>
