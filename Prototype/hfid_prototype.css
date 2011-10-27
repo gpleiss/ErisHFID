@@ -89,11 +89,16 @@ p{
 }
 
 #header_text{
+	margin-top:-40px;
 	font-weight:bold;
-	font-size:20px;
+	font-size:30px;
+	margin-left:60px;
 	color:black;
-	display:inline;
-	padding-top:-10px;
+}	
+	
+#headerimage{
+	margin-left:15px;
+	
 	
 }
 
@@ -104,26 +109,52 @@ p{
 	background-color:#c7ccfe;
 }
 
+#searchText{
+	width:230px;
+	height:25px;
+	border-radius:5px;
+	font-size:18px;
+	color:grey;
+	padding-left:3px;
+}
+
+#searchButton{
+	background-color:#b0cbec;
+	border-style:solid;
+	border-color:navy;
+	
+}
+
 #recentDestButton{
 	background-color:#b0cbec;
-	width:100px;
-	height:80px;
-	padding-top:20px;
+	width: 100px;
+	padding-top:13px;
+	padding-bottom:14px;
 	margin-left:15px;
-	margin-right:10px;
-	margin-top:30px;
+	margin-right:40px;
+	margin-top:70px;
+	margin-bottom:5px;
 	border-style:none;
 	font-family: "DroidSans", arial, sans-serif;
+	text-align: center;
+	font-size:12px;
+	border-radius:4px;
 }
 
 #settingsButton{
 	background-color:#b0cbec;
 	width:100px;
-	height:100px;
-	margin-right:20px;
+	margin-right:40px;
+	margin-left: 148px;
+	margin-top:-60px;
+	padding-top:21px;
+	padding-bottom:19px;
 	border-style:none;
 	font-family: "DroidSans", arial, sans-serif;
-}
+	text-align:center;
+	font-size:13px;
+	border-radius:4px;
+}	
 
 #yelpLinkPopupBackground{  
 	display:none;  
