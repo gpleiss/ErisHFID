@@ -43,8 +43,7 @@ h1 {
 
 #interface{
 	width: 1100px;
-	margin-left:auto;
-	margin-right:auto;
+	margin: auto;
 }
 
 #phone_background{
