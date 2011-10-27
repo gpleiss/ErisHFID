@@ -214,10 +214,21 @@
 				$('#yelpLinkPopup').show();
 				$('#yelpLinkPopupBackground').fadeIn();
 				$('#back').click(function() {
-					$('#yelpLinkPopup').hide();
-					$('#yelpLinkPopupBackground').fadeOut();
+					closeYelpLinkPopup();
 				});
 			});	
+			
+			function closeYelpLinkPopup() {
+				$('#yelpLinkPopup').hide();
+				$('#yelpLinkPopupBackground').fadeOut();
+			}
+			
+			// Open GPS connect from Yelp
+			$('#gpsFromYelp').click(function() {
+				closeYelpLinkPopup();
+				$('#Yelp').fadeOut();
+				$('#GPSConnect').fadeIn();
+			});
 			
 		});
 		
@@ -228,156 +239,164 @@
 		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
 	</div>
 	<!--<div id='directions-panel'></div> -->
-	<div id="phone_background">
-		<div id="phone_header"></div>
-		<div id="phone">
-			<div class="home">
-			<input type="button" id="GPSButton" value="GPS Connect"/>
-			<input type="button" id="YelpButton" value="Yelp"/>
-			</div>
-			<div class="task" id="GPSConnect">
-				<!--<div class="gpsConnectHeader">
-				GPS Connect
-				</div>-->
-				<div class="gpsInner" id="main">
-					
-					<div id="header_bar">
+	<div id="interface">
+		<div id="phone_background">
+			<div id="phone_header"></div>
+			<div id="phone">
+				<div class="home">
+				<input type="button" id="GPSButton" value="GPS Connect"/>
+				<input type="button" id="YelpButton" value="Yelp"/>
+				</div>
+				<div class="task" id="GPSConnect">
+					<!--<div class="gpsConnectHeader">
+					GPS Connect
+					</div>-->
+					<div class="gpsInner" id="main">
+						
+						<div id="header_bar">
+							<center>
+								<img src="images/logo.PNG" width="40" height="40">
+								<p id="header_text">GPS Connect</p>
+							</center>
+						</div>
 						<center>
-							<img src="images/logo.PNG" width="40" height="40">
-							<p id="header_text">GPS Connect</p>
+							<input type="text" id="searchText"/>
+							<input type='button' id="searchButton" value="Search"/>
+						</center>
+						<center>
+							<div id="recentDestButton">
+								Recent
+								Destination
+							</div>
+							<div id="settingsButton">
+								Settings
+							</div>
+							<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
+							<!--<input type="button" id="settingsButton" value="Settings"/>-->
 						</center>
 					</div>
-					<center>
-						<input type="text" id="searchText"/>
-						<input type='button' id="searchButton" value="Search"/>
-					</center>
-					<center>
-						<div id="recentDestButton">
-							Recent
-							Destination
+					<div class="gpsInner" id="settings" style="display:none;">
+						<div id="mainSettings">
+						Address Highlighting <br/>
+						<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
+						<br/>
+						Cars
+						<div id="carList">
+							<div class="car">Toyota</div>
+							<div class="car">Honda</div>
+							<div class="car">Ford</div>
 						</div>
-						<div id="settingsButton">
-							Settings
+						<div><input type='button' id="addCar" value="Add Car"/></div>
 						</div>
-						<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
-						<!--<input type="button" id="settingsButton" value="Settings"/>-->
-					</center>
-				</div>
-				<div class="gpsInner" id="settings" style="display:none;">
-					<div id="mainSettings">
-					Address Highlighting <br/>
-					<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
-					<br/>
-					Cars
-					<div id="carList">
-						<div class="car">Toyota</div>
-						<div class="car">Honda</div>
-						<div class="car">Ford</div>
+						<div id="addCarDiv" style="display:none;">
+							Car email <br/>
+							<input type="text" id="newCarEmail"/>
+							<br/>
+							<br/>
+							Car Alias<br/>
+							<input type="text" id="newCarAlias"/>
+							<br/>
+							<input id="saveCar" type="button" value="Save"/>
+						</div>
 					</div>
-					<div><input type='button' id="addCar" value="Add Car"/></div>
+					<div class="gpsInner" id="recentDest" style="display:none;">
+						<!-- Don't put addresses in recentAddress or else google places name search won't work-->
+						<div class="recentAddress">
+							Olin College 
+						</div>
+						<div class="recentAddress">
+							Trader Joe
+						</div>
 					</div>
-					<div id="addCarDiv" style="display:none;">
-						Car email <br/>
-						<input type="text" id="newCarEmail"/>
-						<br/>
-						<br/>
-						Car Alias<br/>
-						<input type="text" id="newCarAlias"/>
-						<br/>
-						<input id="saveCar" type="button" value="Save"/>
+					<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
+						<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
+						<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
+		
 					</div>
 				</div>
-				<div class="gpsInner" id="recentDest" style="display:none;">
-					<!-- Don't put addresses in recentAddress or else google places name search won't work-->
-					<div class="recentAddress">
-						Olin College 
+				<div class="task" id="Yelp">
+					<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
+						Trader Joe's
 					</div>
-					<div class="recentAddress">
-						Trader Joe
+					<div id="yelp_information" style="height: 40%; font-size: .8em">
+						<div style="width: 30%; float: left">Trader Joe's</div>
+						<div style="width: 70%; float: left">
+							<table>
+								<tr><td width="100%">5 stars, 21 reviews</td></tr>
+								<tr><td>Grocery</td></tr>
+								<tr><td>Price: <span style="color: green">$$</span></td></tr>
+								<tr><td>Distance: 1.5 miles</td></tr>
+								<tr><td>
+									Needham Heights<br />
+									Highland Ave @ Avery Sq (59)<br />
+									Highland Ave @ Mark Lee Rd<br />
+								</td></tr>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
-					<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
-					<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
-	
+					<div id="yelp_buttons" style="font-size: .5em; text-align: center">
+						<div style="width: 20%; float: left">Add Tip</div>
+						<div style="width: 20%; float: left">Add Photo</div>
+						<div style="width: 20%; float: left">Check In</div>
+						<div style="width: 20%; float: left">Draft Review</div>
+						<div style="width: 20%; float: left">Bookmark</div>
+					</div>
+					<div id="yelp_address">
+						<table><tr>
+							<td style="margin-right: 10px">
+								<b><span style="color: blue">Map</span></b>
+							</td>
+							<td style="background-color: yellow">
+								<a id="addressLink" style="text-decoration: none">
+									958 Highland Ave<br />Needham, MA 02494
+								</a>
+							</td>
+							<td>
+								Logo
+							</td>
+						</tr></table>
+					</div>  
+					<div id="extraText" style="display: none">
+						<h1>Hi!</h1>
+					</div>
+					<div id="yelpLinkPopup">    
+						<table>
+							<tr><td>Complete action using</td></tr>
+							<tr><td>Google Maps</td></tr>
+							<tr><td><a id="gpsFromYelp">GPS Connect</a></td></tr>
+						</table> 
+					</div>  
+					<div id="yelpLinkPopupBackground"></div>
+					<div id="yelp_call">
+						<table><tr>
+							<td style="margin-right: 10px">
+								<b><span style="color: blue">Call</span></b>
+							</td>
+							<td>(781) 449-6993</td>
+						</tr></table>
+					</div>
 				</div>
 			</div>
-			<div class="task" id="Yelp">
-				<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
-					Trader Joe's
-				</div>
-				<div id="yelp_information" style="height: 40%; font-size: .8em">
-					<div style="width: 30%; float: left">Trader Joe's</div>
-					<div style="width: 70%; float: left">
-						<table>
-							<tr><td width="100%">5 stars, 21 reviews</td></tr>
-							<tr><td>Grocery</td></tr>
-							<tr><td>Price: <span style="color: green">$$</span></td></tr>
-							<tr><td>Distance: 1.5 miles</td></tr>
-							<tr><td>
-								Needham Heights<br />
-								Highland Ave @ Avery Sq (59)<br />
-								Highland Ave @ Mark Lee Rd<br />
-							</td></tr>
-						</table>
-					</div>
-				</div>
-				<div id="yelp_buttons" style="font-size: .5em; text-align: center">
-					<div style="width: 20%; float: left">Add Tip</div>
-					<div style="width: 20%; float: left">Add Photo</div>
-					<div style="width: 20%; float: left">Check In</div>
-					<div style="width: 20%; float: left">Draft Review</div>
-					<div style="width: 20%; float: left">Bookmark</div>
-				</div>
-				<div id="yelp_address">
-					<table><tr>
-						<td style="margin-right: 10px">
-							<b><span style="color: blue">Map</span></b>
-						</td>
-						<td style="background-color: yellow">
-							<a id="addressLink" style="text-decoration: none">
-								958 Highland Ave<br />Needham, MA 02494
-							</a>
-						</td>
-						<td>
-							Logo
-						</td>
-					</tr></table>
-				</div>  
-				<div id="extraText" style="display: none">
-					<h1>Hi!</h1>
-				</div>
-				<div id="yelpLinkPopup">    
-					<table>
-						<tr><td>Complete action using</td></tr>
-						<tr><td>Google Maps</td></tr>
-						<tr><td>GPS Connect</td></tr>
-					</table> 
-				</div>  
-				<div id="yelpLinkPopupBackground"></div>
-				<div id="yelp_call">
-					<table><tr>
-						<td style="margin-right: 10px">
-							<b><span style="color: blue">Call</span></b>
-						</td>
-						<td>(781) 449-6993</td>
-					</tr></table>
-				</div>
+			<div id="buttons">
+				<a id="back" style="display: inline-block; width:23%;">
+					<img alt="back" src="images/back_button.jpg" style="width:100%">
+				</a>
+				<a id="menu" style="display: inline-block; width:23%;">
+					<img alt="menu" src="images/menu_button.jpg" style="width:100%">
+				</a>
+				<a id="home" style="display: inline-block; width:23%;">
+					<img alt="home" src="images/home_button.jpg" style="width:100%">
+				</a>
+				<a id="search" style="display: inline-block; width:23%;">
+					<img alt="search" src="images/search_button.jpg" style="width:100%">
+				</a>
 			</div>
 		</div>
-		<div id="buttons">
-			<a id="back" style="display: inline-block; width:23%;">
-				<img alt="back" src="images/back_button.jpg" style="width:100%">
-			</a>
-			<a id="menu" style="display: inline-block; width:23%;">
-				<img alt="menu" src="images/menu_button.jpg" style="width:100%">
-			</a>
-			<a id="home" style="display: inline-block; width:23%;">
-				<img alt="home" src="images/home_button.jpg" style="width:100%">
-			</a>
-			<a id="search" style="display: inline-block; width:23%;">
-				<img alt="search" src="images/search_button.jpg" style="width:100%">
-			</a>
+		<div id="cargps_background">
+			<div id="cargps">
+				<div class="cargps_inner" id="cargps_home">
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

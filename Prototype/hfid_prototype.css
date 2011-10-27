@@ -34,6 +34,12 @@ p{
 	padding: 10px;
 }
 
+#interface{
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
 #phone_background{
 	width:300px;
 	height: 530px;
@@ -168,3 +174,13 @@ p{
 	display:block;  
 }  
 
+#cargps{
+	position:absolute;
+	top:40px;
+	left:10px;
+	right:10px;
+	height:410px;
+	width:260px;
+	padding:10px;
+	background: #E3E3E3;
+}
