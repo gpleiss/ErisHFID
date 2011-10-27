@@ -172,7 +172,10 @@
 						drawDirections(latLng, end);
 						
 						$("#sendToGPS").live('click',function() {
-						 	alert('sending to gps');
+							$('#cargps_home').fadeOut();
+						 	$('#cargps_newaddress').fadeIn();
+						 	$('#cargps_newaddress_map').show();
+						 	$('#cargps_newaddress_info').show();
 						});	
 					});
 				}
@@ -312,7 +315,7 @@
 							Olin College 
 						</div>
 						<div class="recentAddress">
-							Trader Joe
+							Trader Joe's
 						</div>
 					</div>
 					<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
@@ -400,8 +403,19 @@
 			</div>
 		</div>
 		<div id="cargps_background">
+			<div id="cargps_header">
+				<h1 style="text-align:center; color:white">IMMA GPS, b*tches!</h1>
+			</div>
 			<div id="cargps">
 				<div class="cargps_inner" id="cargps_home">
+					<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />
+				</div>
+				<div class="cargps_inner" id="cargps_newaddress" style="display:none;">
+					<h1 style="text-align:center">Address from MYDRIOD</h1>
+					<div id="cargps_newaddress_map">
+					</div>
+					<div id="cargps_newaddress_info">
+					</div>
 				</div>
 			</div>
 		</div>
