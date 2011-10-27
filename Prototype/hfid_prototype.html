@@ -71,7 +71,9 @@
 				$('#mainSettings').hide();
 				$('#addCarDiv').show();
 			});
+			
 			var myCars = new Array("Toyota", "Honda", "Ford");
+			
 			$('#saveCar').click(function(){
 				var newCar = $('#newCarAlias').val();
 				$('#carList').append('<div class="car">'+newCar+'</div>');
@@ -87,8 +89,7 @@
 			  center: latlng,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			var map = new google.maps.Map(document.getElementById("map_canvas"),
-				myOptions);
+			var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
 			var input = document.getElementById('searchTextMap');	
 			var autocomplete = new google.maps.places.Autocomplete(input);
 			autocomplete.bindTo('bounds', map);
@@ -110,11 +111,10 @@
 						location: latlng,
 						radius: '50000',
 						name: searchText.val()
-					  };
+					};
 					 
 					infowindow = new google.maps.InfoWindow();
-					var map = new google.maps.Map(document.getElementById("map_canvas"),
-						myOptions);
+					var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
 					service = new google.maps.places.PlacesService(map);
 					
 					service.search(request, callback);
@@ -125,15 +125,15 @@
 					
 					console.log(results);
 					console.log(status);
-				  if (status == google.maps.places.PlacesServiceStatus.OK) {
-					for (var i = 0; i < results.length; i++) {
-					  var place = results[i];
-					  createMarker(results[i]); 
+					if (status == google.maps.places.PlacesServiceStatus.OK) {
+						for (var i = 0; i < results.length; i++) {
+							var place = results[i];
+							createMarker(results[i]); 
+						}
 					}
-				  }
 				}
 				
-				 function createMarker(place) {
+				function createMarker(place) {
 					var placeLoc = place.geometry.location;
 					var marker = new google.maps.Marker({
 					  map: map,
@@ -149,13 +149,69 @@
 						var html=place.name+"<br /><br />"+place.vicinity+"<br />"+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
 						infowindow.setContent(html);
 						infowindow.open(map, this);
+
+						var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
+						drawDirections(latLng, end);
+						
+						$("#sendToGPS").live('click',function() {
+							$('#cargps_home').fadeOut();
+						 	$('#cargps_newaddress').fadeIn();
+						 	$('#cargps_newaddress_map').show();
+						 	$('#cargps_newaddress_info').show();
+						});
 					});
 					
 					$('#sendToGPS').click(function(){
 						alert('!!');
 					});
-				  }
+				}
 			});
+			if (status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(result);
+			}
+			
+			// Yelp "open with GPS connect" popup
+			$('#addressLink').click(function() {
+				// Center the popup
+				var padding = parseInt($('#phone').css("padding-left"), 10);
+				var phoneScreenTop = $('#phone').position().top - padding;
+				var phoneScreenLeft = $('#phone').position().left - padding;
+				var phoneScreenWidth = $('#phone').width() + 2*padding;
+				var phoneScreenHeight = $('#phone').height() + 2*padding;
+				var popupWidth = $('#yelpLinkPopup').width();
+				var popupHeight = $('#yelpLinkPopup').height();
+				$("#yelpLinkPopup").css({  
+					"position": "absolute",  
+					"top": phoneScreenHeight/2-popupHeight/2 - padding,  
+					"left": phoneScreenWidth/2-popupWidth/2 - padding
+				});
+				$("#yelpLinkPopupBackground").css({
+					"position": "absolute",
+					"width": phoneScreenWidth,  
+					"height": phoneScreenHeight, 
+					"top": 0,  
+					"left": 0 
+				});
+				// Open popup
+				$('#yelpLinkPopup').show();
+				$('#yelpLinkPopupBackground').fadeIn();
+				$('#back').click(function() {
+					closeYelpLinkPopup();
+				});
+			});	
+			
+			function closeYelpLinkPopup() {
+				$('#yelpLinkPopup').hide();
+				$('#yelpLinkPopupBackground').fadeOut();
+			}
+			
+			// Open GPS connect from Yelp
+			$('#gpsFromYelp').click(function() {
+				closeYelpLinkPopup();
+				$('#Yelp').fadeOut();
+				$('#GPSConnect').fadeIn();
+			});
+			
 		});
 	</script>
 </head>
@@ -163,40 +219,41 @@
 	<div id="instructions" class="flash">
 		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
 	</div>
-	<div id="phone_background">
-		<div id="phone_header"></div>
-		<div id="phone">
-			<div class="home">
-			<input type="button" id="GPSButton" value="GPS Connect"/>
-			<input type="button" id="YelpButton" value="Yelp"/>
-			</div>
-			<div class="task" id="GPSConnect">
-				<!--<div class="gpsConnectHeader">
-				GPS Connect
-				</div>-->
-				<div class="gpsInner" id="main">
-					
-					<div id="header_bar">
+	
+	<div id="interface">
+		<div id="phone_background">
+			<div id="phone_header"></div>
+			<div id="phone">
+				<div class="home">
+				<input type="button" id="GPSButton" value="GPS Connect"/>
+				<input type="button" id="YelpButton" value="Yelp"/>
+				</div>
+				<div class="task" id="GPSConnect">
+					<!--<div class="gpsConnectHeader">
+					GPS Connect
+					</div>-->
+					<div class="gpsInner" id="main">
+						
+						<div id="header_bar">
+							<div>
+								<img src="images/logo.PNG" id="headerimage" width="40" height="40">
+								<p id="header_text">GPS Connect</p>
+							</div>
+						</div>
 						<center>
-							<img src="images/logo.PNG" width="40" height="40">
-							<p id="header_text">GPS Connect</p>
+							<input type="text" id="searchText" value="Search"/>
 						</center>
-					</div>
-					<center>
-						<input type="text" id="searchText"/>
-						<input type='button' id="searchButton" value="Search"/>
-					</center>
-					<center>
-						<div id="recentDestButton">
-							Recent
-							Destination
-						</div>
-						<div id="settingsButton">
-							Settings
-						</div>
-						<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
-						<!--<input type="button" id="settingsButton" value="Settings"/>-->
-					</center>
+						<div>
+							<div id="recentDestButton">
+								Recent
+								Destination
+							</div>
+							<div id="settingsButton">
+								Settings
+							</div>
+							<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
+							<!--<input type="button" id="settingsButton" value="Settings"/>-->
+						</center>
 				</div>
 				<div class="gpsInner" id="settings" style="display:none;">
 					<div id="mainSettings">
@@ -210,57 +267,123 @@
 						<div class="car">Ford</div>-->
 						
 						<script type="text/javascript">
-							console.log(myCars)
+							console.log(myCars);
 							var myCars = new Array("Toyota", "Honda", "Ford");
 							for (var p=0; p < myCars.length; p++) {
-								console.log("p")
+								console.log("p");
 								document.write("<div class=\"car\">"+myCars[p]+"</div>");
 							}
 						</script>
 					</div>
-					<div><input type='button' id="addCar" value="Add Car"/></div>
+					<div class="gpsInner" id="recentDest" style="display:none;">
+						<!-- Don't put addresses in recentAddress or else google places name search won't work-->
+						<div class="recentAddress">
+							Olin College 
+						</div>
+						<div class="recentAddress">
+							Trader Joe's
+						</div>
 					</div>
-					<div id="addCarDiv" style="display:none;">
-						Car email <br/>
-						<input type="text" id="newCarEmail"/>
-						<br/>
-						<br/>
-						Car Alias<br/>
-						<input type="text" id="newCarAlias"/>
-						<br/>
-						<input id="saveCar" type="button" value="Save"/>
-					</div>
-				</div>
-				<div class="gpsInner" id="recentDest" style="display:none;">
-					<!-- Don't put addresses in recentAddress or else google places name search won't work-->
-					<div class="recentAddress">
-						Olin College 
-					</div>
-					<div class="recentAddress">
-						Trader Joe
+					<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
+						<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
+						<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
+		
 					</div>
 				</div>
-				<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
-					<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
-					<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
+				<div class="task" id="Yelp">
+					<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
+						Trader Joe's
+					</div>
+					<div id="yelp_information" style="height: 40%; font-size: .8em">
+						<div style="width: 30%; float: left">Trader Joe's</div>
+						<div style="width: 70%; float: left">
+							<table>
+								<tr><td width="100%">5 stars, 21 reviews</td></tr>
+								<tr><td>Grocery</td></tr>
+								<tr><td>Price: <span style="color: green">$$</span></td></tr>
+								<tr><td>Distance: 1.5 miles</td></tr>
+								<tr><td>
+									Needham Heights<br />
+									Highland Ave @ Avery Sq (59)<br />
+									Highland Ave @ Mark Lee Rd<br />
+								</td></tr>
+							</table>
+						</div>
+					</div>
+					<div id="yelp_buttons" style="font-size: .5em; text-align: center">
+						<div style="width: 20%; float: left">Add Tip</div>
+						<div style="width: 20%; float: left">Add Photo</div>
+						<div style="width: 20%; float: left">Check In</div>
+						<div style="width: 20%; float: left">Draft Review</div>
+						<div style="width: 20%; float: left">Bookmark</div>
+					</div>
+					<div id="yelp_address">
+						<table><tr>
+							<td style="margin-right: 10px">
+								<b><span style="color: blue">Map</span></b>
+							</td>
+							<td style="background-color: yellow">
+								<a id="addressLink" style="text-decoration: none">
+									958 Highland Ave<br />Needham, MA 02494
+								</a>
+							</td>
+							<td>
+								Logo
+							</td>
+						</tr></table>
+					</div>  
+					<div id="extraText" style="display: none">
+						<h1>Hi!</h1>
+					</div>
+					<div id="yelpLinkPopup">    
+						<table>
+							<tr><td>Complete action using</td></tr>
+							<tr><td>Google Maps</td></tr>
+							<tr><td><a id="gpsFromYelp">GPS Connect</a></td></tr>
+						</table> 
+					</div>  
+					<div id="yelpLinkPopupBackground"></div>
+					<div id="yelp_call">
+						<table><tr>
+							<td style="margin-right: 10px">
+								<b><span style="color: blue">Call</span></b>
+							</td>
+							<td>(781) 449-6993</td>
+						</tr></table>
+					</div>
 				</div>
 			</div>
-			<div class="task" id="Yelp">
+			<div id="buttons">
+				<a id="back" style="display: inline-block; width:23%;">
+					<img alt="back" src="images/back_button.jpg" style="width:100%">
+				</a>
+				<a id="menu" style="display: inline-block; width:23%;">
+					<img alt="menu" src="images/menu_button.jpg" style="width:100%">
+				</a>
+				<a id="home" style="display: inline-block; width:23%;">
+					<img alt="home" src="images/home_button.jpg" style="width:100%">
+				</a>
+				<a id="search" style="display: inline-block; width:23%;">
+					<img alt="search" src="images/search_button.jpg" style="width:100%">
+				</a>
 			</div>
 		</div>
-		<div id="buttons">
-			<a id="back" style="display: inline-block; width:23%;">
-				<img alt="back" src="images/back_button.jpg" style="width:100%">
-			</a>
-			<a id="menu" style="display: inline-block; width:23%;">
-				<img alt="menu" src="images/menu_button.jpg" style="width:100%">
-			</a>
-			<a href="" id="home" style="display: inline-block; width:23%;">
-				<img alt="home" src="images/home_button.jpg" style="width:100%">
-			</a>
-			<a id="search" style="display: inline-block; width:23%;">
-				<img alt="search" src="images/search_button.jpg" style="width:100%">
-			</a>
+		<div id="cargps_background">
+			<div id="cargps_header">
+				<h1 style="text-align:center; color:white">IMMA GPS, b*tches!</h1>
+			</div>
+			<div id="cargps">
+				<div class="cargps_inner" id="cargps_home">
+					<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />
+				</div>
+				<div class="cargps_inner" id="cargps_newaddress" style="display:none;">
+					<h1 style="text-align:center">Address from MYDRIOD</h1>
+					<div id="cargps_newaddress_map">
+					</div>
+					<div id="cargps_newaddress_info">
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
