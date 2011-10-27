@@ -18,8 +18,14 @@
 			{msg:"Add a new car to your cars list", endpoint:"addCar"}, {msg:"Send a destination from another application to your car", endpoint:"sendToGPSOther"}]
 			var END;
 			
-			$('#home').click(function(){
+			function clearMobileScreens() {
+				$('.home').hide();
 				$('.task').hide();
+				$('.gpsInner').hide();
+			}
+			
+			$('#home').click(function(){
+				clearMobileScreens();
 				$('.home').show();
 			});
 			
@@ -30,8 +36,14 @@
 			});
 			
 			$('#GPSButton').click(function(){
-				$('.home').hide();
+				clearMobileScreens();
 				$('#GPSConnect').show();
+				$('#main').show();
+			});
+			
+			$('#YelpButton').click(function(){
+				clearMobileScreens();
+				$('#Yelp').show();
 			});
 			
 			$('#recentDestButton').click(function(){
@@ -57,6 +69,7 @@
 					//initialize();
 				}
 			});
+			
 			// hide all tasks
 			$('.task').hide();
 		
@@ -151,9 +164,9 @@
 						infowindow.open(map, this);
 
 						var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
-						drawDirections(latLng, end);
+						//drawDirections(latlng, end);
 						
-						$("#sendToGPS").live('click',function() {
+						$("#sendToGPS").live('click', function() {
 							$('#cargps_home').fadeOut();
 						 	$('#cargps_newaddress').fadeIn();
 						 	$('#cargps_newaddress_map').show();
@@ -161,9 +174,6 @@
 						});
 					});
 					
-					$('#sendToGPS').click(function(){
-						alert('!!');
-					});
 				}
 			});
 			if (status == google.maps.DirectionsStatus.OK) {
@@ -221,19 +231,21 @@
 	</div>
 	
 	<div id="interface">
+		
 		<div id="phone_background">
-			<div id="phone_header"></div>
+			
+			<div id="phone_header">
+			</div>
+			
 			<div id="phone">
 				<div class="home">
-				<input type="button" id="GPSButton" value="GPS Connect"/>
-				<input type="button" id="YelpButton" value="Yelp"/>
+					<input type="button" id="GPSButton" value="GPS Connect"/>
+					<input type="button" id="YelpButton" value="Yelp"/>
 				</div>
+				
 				<div class="task" id="GPSConnect">
-					<!--<div class="gpsConnectHeader">
-					GPS Connect
-					</div>-->
-					<div class="gpsInner" id="main">
-						
+					
+					<div class="gpsInner" id="main">	
 						<div id="header_bar">
 							<div>
 								<img src="images/logo.png" id="headerimage" width="40" height="40">
@@ -253,28 +265,32 @@
 							</div>
 							<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
 							<!--<input type="button" id="settingsButton" value="Settings"/>-->
-						</center>
-				</div>
-				<div class="gpsInner" id="settings" style="display:none;">
-					<div id="mainSettings">
-					Address Highlighting <br/>
-					<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
-					<br/>
-					Cars
-					<div id="carList">
-						<!--<div class="car">Toyota</div>
-						<div class="car">Honda</div>
-						<div class="car">Ford</div>-->
-						
-						<script type="text/javascript">
-							console.log(myCars);
-							var myCars = new Array("Toyota", "Honda", "Ford");
-							for (var p=0; p < myCars.length; p++) {
-								console.log("p");
-								document.write("<div class=\"car\">"+myCars[p]+"</div>");
-							}
-						</script>
+						</div>
 					</div>
+				
+					<div class="gpsInner" id="settings" style="display:none;">
+						<div id="mainSettings">
+							Address Highlighting <br/>
+							<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
+							<br/>
+							Cars
+							<div id="carList">
+								<!--<div class="car">Toyota</div>
+								<div class="car">Honda</div>
+								<div class="car">Ford</div>-->
+								
+								<script type="text/javascript">
+									console.log(myCars);
+									var myCars = new Array("Toyota", "Honda", "Ford");
+									for (var p=0; p < myCars.length; p++) {
+										console.log("p");
+										document.write("<div class=\"car\">"+myCars[p]+"</div>");
+									}
+								</script>
+							</div>
+						</div>
+					</div>
+					
 					<div class="gpsInner" id="recentDest" style="display:none;">
 						<!-- Don't put addresses in recentAddress or else google places name search won't work-->
 						<div class="recentAddress">
@@ -284,18 +300,21 @@
 							Trader Joe's
 						</div>
 					</div>
+					
 					<div class="gpsInner" id="map" style="display:none; height:370px; width:260px;" >
 						<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
-						<div id="map_canvas" style="width:100%; height:100%; display:none;"></div>
-		
+						<div id="map_canvas" style="width:100%; height:100%; display:none;">
+						</div>
 					</div>
 				</div>
+				
 				<div class="task" id="Yelp">
 					<div id="yelp_logo" style="height: 30px; text-align: center; background-color: red">
 						Trader Joe's
 					</div>
 					<div id="yelp_information" style="height: 40%; font-size: .8em">
-						<div style="width: 30%; float: left">Trader Joe's</div>
+						<div style="width: 30%; float: left">Trader Joe's
+						</div>
 						<div style="width: 70%; float: left">
 							<table>
 								<tr><td width="100%">5 stars, 21 reviews</td></tr>
@@ -353,39 +372,41 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="buttons">
-			<a id="back" style="display: inline-block; width:23%;">
-				<img alt="back" src="images/back_button.jpg" style="width:100%">
-			</a>
-			<a id="menu" style="display: inline-block; width:23%;">
-				<img alt="menu" src="images/menu_button.jpg" style="width:100%">
-			</a>
-			<a id="home" style="display: inline-block; width:23%;">
-				<img alt="home" src="images/home_button.jpg" style="width:100%">
-			</a>
-			<a id="search" style="display: inline-block; width:23%;">
-				<img alt="search" src="images/search_button.jpg" style="width:100%">
-			</a>
-		</div>
-	</div>
-		<div id="cargps_background">
-			<div id="cargps_header">
-				<h1 style="text-align:center; color:white">IMMA GPS, b*tches!</h1>
-			</div>
-			<div id="cargps">
-				<div class="cargps_inner" id="cargps_home">
-					<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />
-				</div>
-				<div class="cargps_inner" id="cargps_newaddress" style="display:none;">
-					<h1 style="text-align:center">Address from MYDRIOD</h1>
-					<div id="cargps_newaddress_map">
-					</div>
-					<div id="cargps_newaddress_info">
-					</div>
-				</div>
+
+			<div id="buttons">
+				<a id="back" style="display: inline-block; width:23%;">
+					<img alt="back" src="images/back_button.jpg" style="width:100%">
+				</a>
+				<a id="menu" style="display: inline-block; width:23%;">
+					<img alt="menu" src="images/menu_button.jpg" style="width:100%">
+				</a>
+				<a id="home" style="display: inline-block; width:23%;">
+					<img alt="home" src="images/home_button.jpg" style="width:100%">
+				</a>
+				<a id="search" style="display: inline-block; width:23%;">
+					<img alt="search" src="images/search_button.jpg" style="width:100%">
+				</a>
 			</div>
 		</div>
+			<div id="cargps_background">
+				<div id="cargps_header">
+					<h1 style="text-align:center; color:white">IMMA GPS, b*tches!</h1>
+				</div>
+				<div id="cargps">
+					<div class="cargps_task" id="cargps_home">
+						<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />
+					</div>
+					<div class="cargps_task" id="cargps_newaddress" style="display:none;">
+						<h1 style="text-align:center">Address from MYDRIOD</h1>
+						<div id="cargps_newaddress_map">
+						</div>
+						<div id="cargps_newaddress_info">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+	
 </body>
 </html>
