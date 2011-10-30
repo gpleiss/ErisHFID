@@ -12,7 +12,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 	<script type="text/javascript">
-		var myCars;
+		var myCars = new Array("Toyota", "Honda", "Ford");
 		$(document).ready(function() {
 			var TASKLIST = [{msg:"Search for a Trader Joes and send that address to your car", endpoint:"sendToGPS"}, 
 			{msg:"Add a new car to your cars list", endpoint:"addCar"}, {msg:"Send a destination from another application to your car", endpoint:"sendToGPSOther"}]
@@ -85,14 +85,21 @@
 				$('#addCarDiv').show();
 			});
 			
-			var myCars = new Array("Toyota", "Honda", "Ford");
+			
 			
 			$('#saveCar').click(function(){
 				var newCar = $('#newCarAlias').val();
-				$('#carList').append('<div class="car">'+newCar+'</div>');
-				$('#myCars').append(newCar);
+				console.log(newCar);
+				myCars.push(newCar);
+				console.log(myCars)
+				$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"><span id=\"cardelete\" value=\"" + myCars.length +"\">x</span></div></div><br />");
 				$('#addCarDiv').hide();
 				$('#mainSettings').show();
+			});
+			
+			$('#cardelete').click(function(){
+				p = $('#myCars').val();
+				$('#myCars').splice(p,1);
 			});
 			
 			// google maps
@@ -284,11 +291,22 @@
 									var myCars = new Array("Toyota", "Honda", "Ford");
 									for (var p=0; p < myCars.length; p++) {
 										console.log("p");
-										document.write("<div class=\"car\">"+myCars[p]+"</div>");
+										document.write("<div class=\"car\"><div class=\"carbackground\">"+myCars[p]+"</div><div class=\"cardelete\"><span id=\"cardelete\" value=\"p\">x</span></div></div><br />");
 									}
 								</script>
 							</div>
-						</div>
+						<div><input type='button' id="addCar" value="Add Car"/></div>
+					</div>
+					<div id="addCarDiv" style="display:none;">
+						Car email <br/>
+						<input type="text" id="newCarEmail"/>
+						<br/>
+						<br/>
+						Car Alias<br/>
+						<input type="text" id="newCarAlias"/>
+						<br/>
+						<input id="saveCar" type="button" value="Save"/>
+					</div>
 					</div>
 					
 					<div class="gpsInner" id="recentDest" style="display:none;">

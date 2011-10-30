@@ -112,10 +112,23 @@ h1 {
 }
 
 .car{
-	height:30px;
+	height:60px;
 	width:200px;
+}
+
+.carbackground{
 	padding:20px;
-	background-color:#c7ccfe;
+	height:20px;
+	width:140px;
+	background-color:#B0CBEC;
+	font-weight:bolder;
+	float:left;
+}
+.cardelete{
+	float:right;
+	padding-top:20px;
+	padding-bottom:20px;
+	
 }
 
 #searchText{
