@@ -135,12 +135,21 @@ $(document).ready(function() {
 			
 			console.log(results);
 			console.log(status);
+			createCurrentLocMarker();
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
 					var place = results[i];
 					createMarker(results[i]); 
 				}
 			}
+		}
+		
+		function createCurrentLocMarker() {
+			var marker = new google.maps.Marker({
+				map: map,
+				position: map.getCenter(),
+				icon: "images/current_loc_marker.png"
+			});
 		}
 		
 		function createMarker(place) {
