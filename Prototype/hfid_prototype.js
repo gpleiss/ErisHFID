@@ -76,19 +76,23 @@ $(document).ready(function() {
 	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
-		console.log(newCar);
 		myCars.push(newCar);
-		console.log(myCars)
-		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"><span id=\"cardelete\" value=\"" + myCars.length +"\">x</span></div></div><br />");
+		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"  title=\"" + newCar +"\"><span id=\"cardelete\">x</span></div></div><br />");
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
 	
 	
-	$('.cardelete').click(function(){
-		console.log('hello! car delete!');
-		p = $('#myCars').attr("title");
-		myCars.splice(p,1);
+	$('.cardelete').live('click', function(){
+		var p = $(this).attr("title");
+		// find correct car and delete
+		for (var i = 0; i<myCars.length; i++){
+			if (myCars[i] == p){
+				myCars.splice(i, 1);
+				$(this).parent().remove();
+				break;
+			}
+		}
 		console.log(myCars);
 	});
 	
@@ -173,9 +177,23 @@ $(document).ready(function() {
 			
 		}
 	});
-	if (status == google.maps.DirectionsStatus.OK) {
-		directionsDisplay.setDirections(result);
+	
+	function drawDirections(start, end){
+		console.log('draw directions');
+		var request = {
+			origin: start,
+			destination: end,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		directionsService.route(request, function(result, status) {
+			console.log(result);
+
+			if (status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(result);
+			}
+		});
 	}
+	
 	
 	// Yelp "open with GPS connect" popup
 	$('#addressLink').click(function() {
