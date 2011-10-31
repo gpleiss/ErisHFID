@@ -97,9 +97,12 @@
 				$('#mainSettings').show();
 			});
 			
-			$('#cardelete').click(function(){
-				p = $('#myCars').val();
-				$('#myCars').splice(p,1);
+			
+			$('.cardelete').click(function(){
+				console.log('hello! car delete!');
+				p = $('#myCars').attr("title");
+				myCars.splice(p,1);
+				console.log(myCars);
 			});
 			
 			// google maps
@@ -291,7 +294,7 @@
 									var myCars = new Array("Toyota", "Honda", "Ford");
 									for (var p=0; p < myCars.length; p++) {
 										console.log("p");
-										document.write("<div class=\"car\"><div class=\"carbackground\">"+myCars[p]+"</div><div class=\"cardelete\"><span id=\"cardelete\" value=\"p\">x</span></div></div><br />");
+										document.write("<div class=\"car\"><div class=\"carbackground\">"+myCars[p]+"</div><div class=\"cardelete\"><span id=\"cardelete\" title=\"" + p + "\">x</span></div></div><br />");
 									}
 								</script>
 							</div>
