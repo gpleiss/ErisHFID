@@ -76,24 +76,30 @@ $(document).ready(function() {
 	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
-		console.log(newCar);
 		myCars.push(newCar);
-		console.log(myCars)
-		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"><span id=\"cardelete\" value=\"" + myCars.length +"\">x</span></div></div><br />");
+		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"  title=\"" + newCar +"\"><span id=\"cardelete\">x</span></div></div><br />");
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
 	
 	
-	$('.cardelete').click(function(){
-		console.log('hello! car delete!');
-		p = $('#myCars').attr("title");
-		myCars.splice(p,1);
+	$('.cardelete').live('click', function(){
+		var p = $(this).attr("title");
+		// find correct car and delete
+		for (var i = 0; i<myCars.length; i++){
+			if (myCars[i] == p){
+				myCars.splice(i, 1);
+				$(this).parent().remove();
+				break;
+			}
+		}
 		console.log(myCars);
 	});
 	
 	// google maps
 	var latlng = new google.maps.LatLng(42.293, -71.264);
+	var directionsService = new google.maps.DirectionsService();	
+	var directionsDisplay = new google.maps.DirectionsRenderer();
 	var myOptions = {
 	  zoom: 8,
 	  center: latlng,
@@ -171,9 +177,10 @@ $(document).ready(function() {
 			var html=place.name+"<br /><br />"+place.vicinity+"<br />"+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
 			infowindow.setContent(html);
 			infowindow.open(map, this);
-
-			var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
-			//drawDirections(latlng, end);
+			
+			var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
+			directionsDisplay.setMap(map);
+			drawDirections(latlng, end);
 			
 			$("#sendToGPS").live('click', function() {
 				$('#cargps_home').fadeOut();
@@ -190,9 +197,23 @@ $(document).ready(function() {
 		$('#map_canvas').show();
 	}
 	
-	if (status == google.maps.DirectionsStatus.OK) {
-		directionsDisplay.setDirections(result);
+	function drawDirections(start, end){
+		console.log('draw directions');
+		var request = {
+			origin: start,
+			destination: end,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		directionsService.route(request, function(result, status) {
+			console.log(result);
+			
+			if (status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(result);
+			}
+		});
 	}
+	
+	
 	
 	// Yelp "open with GPS connect" popup
 	$('#addressLink').click(function() {
