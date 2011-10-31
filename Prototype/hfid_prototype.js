@@ -98,6 +98,8 @@ $(document).ready(function() {
 	
 	// google maps
 	var latlng = new google.maps.LatLng(42.293, -71.264);
+	var directionsService = new google.maps.DirectionsService();	
+	var directionsDisplay = new google.maps.DirectionsRenderer();
 	var myOptions = {
 	  zoom: 8,
 	  center: latlng,
@@ -110,8 +112,11 @@ $(document).ready(function() {
 	
 	// search for nearby locations
 	$('#searchButtonMap').click(function(){
+		mapSearch($('#searchTextMap'));
+	});
+	
+	function mapSearch(searchText) {
 		$('#map_canvas').show();
-		var searchText = $('#searchTextMap');
 		var place = autocomplete.getPlace();
 		
 		if (searchText.val() != ''){
@@ -134,49 +139,61 @@ $(document).ready(function() {
 			service.search(request, callback);
 		}
 		
-		
 		function callback(results, status) {
-			
 			console.log(results);
 			console.log(status);
+			createCurrentLocMarker(map);
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
 					var place = results[i];
-					createMarker(results[i]); 
+					createMarker(map, results[i]); 
 				}
 			}
 		}
-		
-		function createMarker(place) {
-			var placeLoc = place.geometry.location;
-			var marker = new google.maps.Marker({
-			  map: map,
-			  position: place.geometry.location
-			});
-	 
-			google.maps.event.addListener(marker, 'click', function() {
-				var dropdown_menu = "<select>";
-				for (var i=0; i < myCars.length; i++) {
-					var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
-				}
-				var dropdown_menu = dropdown_menu + "</option></select>";
-				var html=place.name+"<br /><br />"+place.vicinity+"<br />"+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
-				infowindow.setContent(html);
-				infowindow.open(map, this);
+	}
+	
+	
+	function createCurrentLocMarker(map) {
+		var marker = new google.maps.Marker({
+			map: map,
+			position: map.getCenter(),
+			icon: "images/current_loc_marker.png"
+		});
+	}
+	
+	function createMarker(map, place) {
+		var placeLoc = place.geometry.location;
+		var marker = new google.maps.Marker({
+		  map: map,
+		  position: place.geometry.location
+		});
 
-				var end = new google.maps.LatLng(marker.position.Ma, marker.position.Na);
-				//drawDirections(latlng, end);
-				
-				$("#sendToGPS").live('click', function() {
-					$('#cargps_home').fadeOut();
-					$('#cargps_newaddress').fadeIn();
-					$('#cargps_newaddress_map').show();
-					$('#cargps_newaddress_info').show();
-				});
-			});
+		google.maps.event.addListener(marker, 'click', function() {
+			var dropdown_menu = "<select>";
+			for (var i=0; i < myCars.length; i++) {
+				var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
+			}
+			var dropdown_menu = dropdown_menu + "</option></select>";
+			var html=place.name+"<br /><br />"+place.vicinity+"<br />"+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			infowindow.setContent(html);
+			infowindow.open(map, this);
 			
-		}
-	});
+			var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
+			directionsDisplay.setMap(map);
+			drawDirections(latlng, end);
+			
+			$("#sendToGPS").live('click', function() {
+				$('#cargps_home').fadeOut();
+				$('#cargps_newaddress').fadeIn();
+				$('#cargps_newaddress_map').show();
+				$('#cargps_newaddress_info').show();
+			});
+		});	
+	}	
+	
+	function yelpMapScreen() {
+		$('#map_canvas').show();
+	}
 	
 	function drawDirections(start, end){
 		console.log('draw directions');
@@ -187,12 +204,13 @@ $(document).ready(function() {
 		};
 		directionsService.route(request, function(result, status) {
 			console.log(result);
-
+			
 			if (status == google.maps.DirectionsStatus.OK) {
 				directionsDisplay.setDirections(result);
 			}
 		});
 	}
+	
 	
 	
 	// Yelp "open with GPS connect" popup
@@ -235,6 +253,8 @@ $(document).ready(function() {
 		closeYelpLinkPopup();
 		$('#Yelp').fadeOut();
 		$('#GPSConnect').fadeIn();
+		$('#map').show();
+		yelpMapScreen(null);
 	});
 	
 });
