@@ -180,6 +180,8 @@ $(document).ready(function() {
 				$('#cargps_newaddress').fadeIn();
 				$('#cargps_newaddress_map').show();
 				$('#cargps_newaddress_info').show();
+				$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
+				$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
 			});
 		});	
 	}	
