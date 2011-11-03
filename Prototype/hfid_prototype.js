@@ -109,14 +109,14 @@ $(document).ready(function() {
 	
 	// search for nearby locations
 	$('#searchButtonMap').click(function(){
-		mapSearch($('#searchTextMap'));
+		mapSearch($('#searchTextMap').val());
 	});
 	
 	function mapSearch(searchText) {
 		$('#map_canvas').show();
-		var place = autocomplete.getPlace();
+		//var place = autocomplete.getPlace();
 		
-		if (searchText.val() != ''){
+		if (searchText != ''){
 			var latlng = new google.maps.LatLng(42.293, -71.264);
 			var myOptions = {
 			  zoom: 8,
@@ -126,11 +126,11 @@ $(document).ready(function() {
 			var request = {
 				location: latlng,
 				radius: '50000',
-				keyword: searchText.val()
+				keyword: searchText
 			};
 			 
 			infowindow = new google.maps.InfoWindow();
-			var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+			var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 			service = new google.maps.places.PlacesService(map);
 			
 			service.search(request, callback);
@@ -143,7 +143,38 @@ $(document).ready(function() {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
 					var place = results[i];
-					createMarker(map, results[i]); 
+					createMarker(map, results[i], false); 
+				}
+			}
+		}
+	}
+	
+	function yelpMapScreen(addressString) {
+		$('#map_canvas').show();
+		var latlng = new google.maps.LatLng(42.293, -71.264);
+		var myOptions = {
+			zoom: 10,
+			center: latlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var request = {
+			location: latlng,
+			radius: '50000',
+			name: addressString
+		};
+		infowindow = new google.maps.InfoWindow();
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		service = new google.maps.places.PlacesService(map);
+		createCurrentLocMarker(map);
+		service.search(request, callback);
+		
+		function callback(results, status) {
+			console.log(results);
+			console.log(status);
+			if (status == google.maps.places.PlacesServiceStatus.OK) {
+				if (results.length >= 1) {
+					var place = results[0];
+					createMarker(map, results[0], true); 
 				}
 			}
 		}
@@ -158,20 +189,25 @@ $(document).ready(function() {
 		});
 	}
 	
-	function createMarker(map, place) {
+	function createMarker(map, place, markerOpened) {
 		var placeLoc = place.geometry.location;
 		var marker = new google.maps.Marker({
-		  map: map,
-		  position: place.geometry.location
+			map: map,
+			position: place.geometry.location
 		});
-
-		google.maps.event.addListener(marker, 'click', function() {
+		google.maps.event.addListener(marker, 'click', openMarker)
+		
+		if (markerOpened) {
+			openMarker()
+		}
+		
+		function openMarker() {
 			var dropdown_menu = "<select>";
 			for (var i=0; i < myCars.length; i++) {
 				var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
 			}
 			var dropdown_menu = dropdown_menu + "</option></select>";
-			var html=place.name+"<br /><br />"+place.vicinity+"<br />"+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
 			infowindow.setContent(html);
 			infowindow.open(map, this);
 			
@@ -194,12 +230,8 @@ $(document).ready(function() {
 				$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
 				$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
 			});
-		});	
+		}	
 	}	
-	
-	function yelpMapScreen() {
-		$('#map_canvas').show();
-	}
 	
 	function drawDirections(start, end, display){
 		console.log('draw directions');
@@ -258,7 +290,7 @@ $(document).ready(function() {
 		$('#Yelp').fadeOut();
 		$('#GPSConnect').fadeIn();
 		$('#map').show();
-		yelpMapScreen(null);
+		yelpMapScreen('958 Highland Ave, Needham, MA 02494');
 	});
 	
 });
