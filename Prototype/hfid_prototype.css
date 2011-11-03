@@ -292,7 +292,7 @@ h1 {
 	width:250px;
 }
 
-#email_availability{
+#email_submit{
 	height:100px;
 	width:100px;
 	margin-top:20px;
@@ -301,6 +301,41 @@ h1 {
 	background-color:#97e6e6;
 	text-align:center;
 }
+
+#email_changed{
+	z-index:300;
+	position:absolute;
+	margin-left:141px;
+	margin-top:60px;
+	width:340px;
+	height:140px;
+	background-color:#E3E3E3;
+	padding:30px;
+	text-align:center;
+}
+
+#email_changed_ok{
+	background-color:#B0CBEC;
+	width:150px;
+	height:35px;
+	padding-top:5px;
+	border-radius:5px;
+	margin:0 auto;
+	font-size:1.7em;
+	margin-top:20px;
+}
+
+#email_changed_bkgrnd{
+	z-index:200;
+	position:absolute;
+	background-color:black;
+	opacity:0.4;
+	height:100%;
+	width:100%;
+	margin-left:-10px;
+	margin-top:-49px;
+}
+
 
 #gps_keyboard{
 	width: 100%;

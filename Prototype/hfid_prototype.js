@@ -93,6 +93,16 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
+	$('#email_submit').click(function(){
+		$('#email_changed').show();
+		$('#email_changed_bkgrnd').show();
+		$('#submitted_email').append($('#write').val()+"@toyota.com");
+	});
+	
+	$("#email_changed_ok").click(function(){
+		$('#gpshome').show();
+	});
+	
 	// google maps
 	var latlng = new google.maps.LatLng(42.293, -71.264);
 	var directionsService = new google.maps.DirectionsService();	
