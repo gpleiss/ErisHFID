@@ -72,8 +72,6 @@ $(document).ready(function() {
 		$('#addCarDiv').show();
 	});
 	
-	
-	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
 		myCars.push(newCar);
@@ -81,7 +79,6 @@ $(document).ready(function() {
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
-	
 	
 	$('.cardelete').live('click', function(){
 		var p = $(this).attr("title");
@@ -180,12 +177,19 @@ $(document).ready(function() {
 			
 			var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
 			directionsDisplay.setMap(map);
-			drawDirections(latlng, end);
+			drawDirections(latlng, end, directionsDisplay);
 			
 			$("#sendToGPS").live('click', function() {
 				$('#cargps_home').fadeOut();
 				$('#cargps_newaddress').fadeIn();
 				$('#cargps_newaddress_map').show();
+				// set up new map
+				var mapGPS = new google.maps.Map(document.getElementById("cargps_newaddress_map"),myOptions);
+				// set up directions
+				var directionsDisplayGPS = new google.maps.DirectionsRenderer();
+				directionsDisplayGPS.setMap(mapGPS);
+				drawDirections(latlng, end, directionsDisplayGPS);
+				
 				$('#cargps_newaddress_info').show();
 				$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
 				$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
@@ -197,7 +201,7 @@ $(document).ready(function() {
 		$('#map_canvas').show();
 	}
 	
-	function drawDirections(start, end){
+	function drawDirections(start, end, display){
 		console.log('draw directions');
 		var request = {
 			origin: start,
@@ -208,12 +212,10 @@ $(document).ready(function() {
 			console.log(result);
 			
 			if (status == google.maps.DirectionsStatus.OK) {
-				directionsDisplay.setDirections(result);
+				display.setDirections(result);
 			}
 		});
 	}
-	
-	
 	
 	// Yelp "open with GPS connect" popup
 	$('#addressLink').click(function() {
