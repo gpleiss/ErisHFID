@@ -1,8 +1,11 @@
 var myCars = new Array("Toyota", "Honda", "Ford");
 
 $(document).ready(function() {
-	var TASKLIST = [{msg:"Search for a Trader Joes and send that address to your car", endpoint:"sendToGPS"}, 
-	{msg:"Add a new car to your cars list", endpoint:"addCar"}, {msg:"Send a destination from another application to your car", endpoint:"sendToGPSOther"}]
+	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
+	{msg:"Add a new car to the list of cars in the GPS Connect app.", endpoint:"addCar"}, 
+	{msg:"Go on yelp. Send the address of a resturant to your car from Yelp.", endpoint:"sendToGPSOther"},
+	{msg:"Look at your recent destinations. Send the address of a recent destination to your car.", endpoint:""}, 
+	{msg:"Set a new email address for your car GPS.", endpoint:""}]
 	var END;
 	
 	function clearMobileScreens() {
