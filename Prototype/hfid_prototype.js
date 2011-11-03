@@ -233,10 +233,6 @@ $(document).ready(function() {
 		}	
 	}	
 	
-	function yelpMapScreen() {
-		$('#map_canvas').show();
-	}
-	
 	function drawDirections(start, end, display){
 		console.log('draw directions');
 		var request = {
