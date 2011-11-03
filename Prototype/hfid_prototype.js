@@ -1,8 +1,11 @@
 var myCars = new Array("Toyota", "Honda", "Ford");
 
 $(document).ready(function() {
-	var TASKLIST = [{msg:"Search for a Trader Joes and send that address to your car", endpoint:"sendToGPS"}, 
-	{msg:"Add a new car to your cars list", endpoint:"addCar"}, {msg:"Send a destination from another application to your car", endpoint:"sendToGPSOther"}]
+	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
+	{msg:"Add a new car to the list of cars in the GPS Connect app.", endpoint:"addCar"}, 
+	{msg:"Go on yelp. Send the address of a resturant to your car from Yelp.", endpoint:"sendToGPSOther"},
+	{msg:"Look at your recent destinations. Send the address of a recent destination to your car.", endpoint:""}, 
+	{msg:"Set a new email address for your car GPS.", endpoint:""}]
 	var END;
 	
 	function clearMobileScreens() {
@@ -62,10 +65,13 @@ $(document).ready(function() {
 	$('.task').hide();
 
 	$('.recentAddress').click(function(){
+		console.log();
 		$('.gpsInner').hide();
 		$('#map').show();
-		$('#searchTextMap').val($(this).html().trim());
-		$('#searchButtonMap').click();
+		name = $(this).html().trim();
+		lat = parseFloat($(this).attr('lat'));
+		lng = parseFloat($(this).attr('lng'));
+		addressMapScreen(name, new google.maps.LatLng(lat, lng));
 	});
 	
 	$('#addCar').click(function(){
@@ -171,26 +177,33 @@ $(document).ready(function() {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
 					var place = results[i];
-					createMarker(map, results[i], false); 
+					createMarker(map, results[i], infowindow, false); 
 				}
 			}
 		}
 	}
 	
-	function yelpMapScreen(addressString) {
+	function addressMapScreen(name, loc_latlng) {
+		console.log(name);
+		console.log(loc_latlng);
+		
 		$('#map_canvas').show();
-		var latlng = new google.maps.LatLng(42.293, -71.264);
+		var mapcenter_latlng = new google.maps.LatLng(42.293, -71.264);
+		$('#searchTextMap').val(name);
+		
 		var myOptions = {
 			zoom: 10,
 			center: latlng,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		var request = {
-			location: latlng,
-			radius: '50000',
-			name: addressString
+			location: loc_latlng,
+			radius: '10',
+			name: name
 		};
-		infowindow = new google.maps.InfoWindow();
+		infowindow = new google.maps.InfoWindow({
+			maxWidth: 100,
+		});
 		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 		service = new google.maps.places.PlacesService(map);
 		createCurrentLocMarker(map);
@@ -202,7 +215,7 @@ $(document).ready(function() {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				if (results.length >= 1) {
 					var place = results[0];
-					createMarker(map, results[0], true); 
+					createMarker(map, results[0], infowindow, true); 
 				}
 			}
 		}
@@ -217,48 +230,50 @@ $(document).ready(function() {
 		});
 	}
 	
-	function createMarker(map, place, markerOpened) {
+	function createMarker(map, place, infowindow, markerOpened) {
 		var placeLoc = place.geometry.location;
 		var marker = new google.maps.Marker({
 			map: map,
 			position: place.geometry.location
 		});
-		google.maps.event.addListener(marker, 'click', openMarker)
-		
+		google.maps.event.addListener(marker, 'click', function() {
+			openMarker(marker, map, place);
+		});
 		if (markerOpened) {
-			openMarker()
+			openMarker(marker, map, place);
 		}
+	}	
+	
+	function openMarker(marker, map, place) {
+		var dropdown_menu = "<select>";
+		for (var i=0; i < myCars.length; i++) {
+			var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
+		}
+		var dropdown_menu = dropdown_menu + "</option></select>";
+		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+		infowindow.setContent(html);
+		infowindow.open(map, marker);
+		console.log(infowindow);
 		
-		function openMarker() {
-			var dropdown_menu = "<select>";
-			for (var i=0; i < myCars.length; i++) {
-				var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
-			}
-			var dropdown_menu = dropdown_menu + "</option></select>";
-			var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
-			infowindow.setContent(html);
-			infowindow.open(map, this);
+		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
+		directionsDisplay.setMap(map);
+		drawDirections(latlng, end, directionsDisplay);
+		
+		$("#sendToGPS").live('click', function() {
+			$('#cargps_home').fadeOut();
+			$('#cargps_newaddress').fadeIn();
+			$('#cargps_newaddress_map').show();
+			// set up new map
+			var mapGPS = new google.maps.Map(document.getElementById("cargps_newaddress_map"),myOptions);
+			// set up directions
+			var directionsDisplayGPS = new google.maps.DirectionsRenderer();
+			directionsDisplayGPS.setMap(mapGPS);
+			drawDirections(latlng, end, directionsDisplayGPS);
 			
-			var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
-			directionsDisplay.setMap(map);
-			drawDirections(latlng, end, directionsDisplay);
-			
-			$("#sendToGPS").live('click', function() {
-				$('#cargps_home').fadeOut();
-				$('#cargps_newaddress').fadeIn();
-				$('#cargps_newaddress_map').show();
-				// set up new map
-				var mapGPS = new google.maps.Map(document.getElementById("cargps_newaddress_map"),myOptions);
-				// set up directions
-				var directionsDisplayGPS = new google.maps.DirectionsRenderer();
-				directionsDisplayGPS.setMap(mapGPS);
-				drawDirections(latlng, end, directionsDisplayGPS);
-				
-				$('#cargps_newaddress_info').show();
-				$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
-				$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
-			});
-		}	
+			$('#cargps_newaddress_info').show();
+			$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
+			$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
+		});
 	}	
 	
 	function drawDirections(start, end, display){
@@ -318,7 +333,7 @@ $(document).ready(function() {
 		$('#Yelp').fadeOut();
 		$('#GPSConnect').fadeIn();
 		$('#map').show();
-		yelpMapScreen('958 Highland Ave, Needham, MA 02494');
+		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
 	
 	

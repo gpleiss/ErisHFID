@@ -94,12 +94,13 @@
 					</div>
 					
 					<div class="gpsInner" id="recentDest" style="display:none;">
+					<div style="font-size:17px;border-bottom: 3px solid black; text-align:center;">Recent Destinations</div>
 						<!-- Don't put addresses in recentAddress or else google places name search won't work-->
-						<div class="recentAddress">
+						<div class="recentAddress" id="ra_olin" lat="42.293" lng="-71.264">
 							Olin College 
 						</div>
-						<div class="recentAddress">
-							Trader Joe's
+						<div class="recentAddress" id="ra_olin" lat="42.292" lng="-71.235">
+							Trader Joes
 						</div>
 					</div>
 					
@@ -117,7 +118,8 @@
 					<div id="yelp_information" style="height: 40%; font-size: .8em">
 						<div style="width: 30%; float: left">Trader Joe's
 						</div>
-						<div style="width: 70%; float: left">
+						<div id="tjs"><img src="images/tjs.jpg" id="tjs2"/></div>
+						<div style="width: 70%; float: right; margin-top:-30px;">
 							<table>
 								<tr><td width="100%">5 stars, 21 reviews</td></tr>
 								<tr><td>Grocery</td></tr>
@@ -131,29 +133,30 @@
 							</table>
 						</div>
 					</div>
-					<div id="yelp_buttons" style="font-size: .5em; text-align: center">
+					<div id="yelp_buttons">
 						<div style="width: 20%; float: left">Add Tip</div>
 						<div style="width: 20%; float: left">Add Photo</div>
 						<div style="width: 20%; float: left">Check In</div>
 						<div style="width: 20%; float: left">Draft Review</div>
 						<div style="width: 20%; float: left">Bookmark</div>
 					</div>
+					<div id="yelpbreakspace2"></div>
+					<div id="yelpbreakspace"></div>
 					<div id="yelp_address">
 						<table><tr>
 							<td style="margin-right: 10px">
 								<b><span style="color: blue">Map</span></b>
 							</td>
-							<td style="background-color: yellow">
-								<a id="addressLink" style="text-decoration: none">
-									958 Highland Ave<br />Needham, MA 02494
+							<td>
+								<a id="addressLink">
+									958 Highland Ave Needham, MA 02494
 								</a>
 							</td>
 							<td>
-								Logo
+								<img src="images/logo.png" id="yelplogo"></img>
 							</td>
 						</tr></table>
-					</div>  
-					<div id="extraText" style="display: none">
+					</div>  					<div id="extraText" style="display: none">
 						<h1>Hi!</h1>
 					</div>
 					<div id="yelpLinkPopup">    
@@ -169,7 +172,7 @@
 							<td style="margin-right: 10px">
 								<b><span style="color: blue">Call</span></b>
 							</td>
-							<td>(781) 449-6993</td>
+							<td id="phonenumber">(781) 449-6993</td>
 						</tr></table>
 					</div>
 				</div>
@@ -232,10 +235,8 @@
 						<div class="home_button" id="car_info_button">Car Info</div>
 						<div class="home_button">Settings</div>
 					
-						
-						<!--<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />-->
 					</div>
-					<div class="cargps_task" id="cargps_newaddress" style="display:none;">
+					<div class="cargps_task" id="cargps_newaddress" style="">
 						<h1 style="text-align:center">Address from MYDRIOD</h1>
 						<div id="cargps_newaddress_map">
 						</div>
@@ -245,17 +246,15 @@
 							<div id="cargps_newaddress_info_distance"></div>
 							<div id="cargps_newaddress_info_time"></div>
 							<div id="cargps_newaddress_info_gobutton">Go!</div>
-							<div id="cargps_newaddress_info_gobutton">Cancel</div>
+							<div id="cargps_newaddress_info_cancelbutton">Cancel</div>
 						</div>
 					</div>
 					
 					<div class="cargps_task" id="new_email" style="display:none;">
 						<h1 style="text-align:center">Enter new email address</h1>
 						<div id="email_entry">
-							<textarea id="write" placeholder="Enter Text..."></textarea>@toyota.com
+							<input type="text" id="write" value="Enter Text Here" />&nbsp&nbsp@toyota.com
 						</div>
-						
-						
 						<div id="email_submit">
 							Submit
 						</div>
