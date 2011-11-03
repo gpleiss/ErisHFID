@@ -268,12 +268,13 @@ h1 {
 
 #cargps_newaddress_info{
 	display: none;
-	background: blue;
+	background: white;
 	width: 300px;
 	height: 350px;
 	float: left;
 	margin: 20px;
 	margin-top: 10px;
+	border-radius:5px;
 }
 
 #recentheader{
@@ -316,6 +317,7 @@ h1 {
 	width:120px;
 	height:30px;
 	border-radius:5px;
+	padding-top:0px;
 }
 
 #yelp_logo{
@@ -328,3 +330,82 @@ h1 {
 	margin: -10px -10px 0px -10px;
 }
 	
+#cargps_newaddress_info_gobutton{
+	border-radius:5px;
+	width:70px;
+	height:30px;
+	margin:10px 10px 10px 40px;
+	padding: 10px 10px 2px 8px;
+	background-color:#b0cbec;
+	text-align:center;
+}
+
+#cargps_newaddress_info_cancelbutton{
+		border-radius:5px;
+	width:70px;
+	height:30px;
+	margin:-52px 10px 10px 170px;
+	padding: 10px 10px 2px 8px;
+	background-color:#b0cbec;
+	text-align:center;
+}	
+
+#yelp_buttons{
+	font-size:8px;
+	margin-top:120px;
+	margin-left:5px;
+	margin-bottom:2px;
+}
+#yelpbreakspace{
+	border-bottom:1px solid grey;
+	margin-top: 10px;
+}		
+
+#yelpbreakspace2{
+	border-bottom:1px solid grey;
+	margin-top:0px;
+}	
+#yelplogo{
+	width:25px;
+	height:25px;
+	margin-left:20px;
+}
+
+#addressLink{
+	font-size:12px;
+	background-color: yellow;
+	text-decoration:none;
+	text-align:center; 
+}
+
+#phonenumber{
+	font-size:12px;
+}
+
+#tjs{
+	width:30%;
+	height:40px;
+	margin-top:10px;
+}
+
+#tjs2{
+	width:60px%;
+	height:60px;
+}
+
+#addCarDiv{
+	border-style:none;
+	background-color:white;
+	border-radius:3px;
+	text-align:center;
+	height:170px;
+	margin-top:10px;
+}
+
+#saveCar{
+	border-style:none;
+	background-color:#b0cbec;
+	border-radius:5px;
+	width:70px;
+	height:30px;
+	margin-top:10px;
