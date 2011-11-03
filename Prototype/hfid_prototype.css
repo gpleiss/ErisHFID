@@ -302,12 +302,12 @@ h1 {
 #email_entry{
 	width:500px;
 	height:50px;
-	background-color:red;
-	margin-top:20px;
-	margin-bottom:20px;
-	margin-left:40px;
-	float:left;
+	background-color:#b0cbec;
+	padding-top:6px;
+	padding-left:6px;
+	margin:20px 0px 20px 20px;
 	font-size:2em;
+	border-radius:5px;
 }
 
 #newGPSemail{
@@ -316,13 +316,16 @@ h1 {
 }
 
 #email_availability{
-	height:100px;
+	height:40px;
 	width:100px;
-	margin-top:20px;
-	margin-bottom:20px;
+	margin-top:-80px;
+	margin-bottom:135px;
+	margin-right:20px;
+	padding:20px 0px 0px 0px;
 	float:right;
 	background-color:#97e6e6;
 	text-align:center;
+	border-radius:5px;
 }
 
 #gps_keyboard{
@@ -330,6 +333,7 @@ h1 {
 	background-color:#E3E3E3;
 	height:230px;
 	float:left;
+	margin-top:-100px;
 }
 
 #recentheader{
@@ -465,3 +469,8 @@ h1 {
 	height:30px;
 	margin-top:10px;
 }
+
+#write{
+	margin:2px 5px 0px 0px;
+}
+
