@@ -344,6 +344,31 @@ h1 {
 	float:left;
 }
 
+#home_header{
+	background-color:#3b3b3b;
+	color:white;
+	width:98%;
+	height:30px;
+	margin-left:-10px;
+	margin-top:-10px;
+	padding:10px 20px 0 20px;
+	font-size:1.3em;
+	
+}
+
+.home_button{
+	margin-left:40px;
+	margin-top:40px;
+	width:120px;
+	height:120px;
+	background-color:#0b3991;
+	color:white;
+	float:left;
+	font-size:1.6em;
+	padding:10px;
+	text-align:center;
+}
+
 #recentheader{
 	text-align:center;
 	padding-bottom:10px;
