@@ -136,7 +136,7 @@ $(document).ready(function() {
 			var request = {
 				location: latlng,
 				radius: '50000',
-				name: searchText
+				keyword: searchText
 			};
 			 
 			infowindow = new google.maps.InfoWindow();
