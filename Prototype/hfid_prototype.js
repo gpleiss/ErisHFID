@@ -126,7 +126,7 @@ $(document).ready(function() {
 			var request = {
 				location: latlng,
 				radius: '50000',
-				name: searchText
+				keyword: searchText
 			};
 			 
 			infowindow = new google.maps.InfoWindow();
@@ -232,10 +232,6 @@ $(document).ready(function() {
 			});
 		}	
 	}	
-	
-	function yelpMapScreen() {
-		$('#map_canvas').show();
-	}
 	
 	function drawDirections(start, end, display){
 		console.log('draw directions');
