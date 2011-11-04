@@ -628,3 +628,17 @@ h1 {
 	margin-left:30%; 
 }
 	
+#resend_button{
+	background-color:#b0cbec;
+	border-radius:5px;
+	border-style:none;
+	width:70px;
+	height:25px;
+	margin: 0px 80px 0px 0px;
+}
+
+#cargps_newaddress_info_cancelbutton{
+	background-color:#b0cbec;
+	border-radius:5px;
+	border-style:none;
+}
