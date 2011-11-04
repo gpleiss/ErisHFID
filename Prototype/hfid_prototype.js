@@ -11,6 +11,7 @@ $(document).ready(function() {
 	function clearMobileScreens() {
 		$('.home').hide();
 		$('.task').hide();
+		$('.send_notification').hide();
 		$('.gpsInner').hide();
 	}
 	
@@ -241,13 +242,19 @@ $(document).ready(function() {
 		}
 	}	
 	
-	function openMarker(marker, map, place) {
+	function makeCarDropdownHtml() {
 		var dropdown_menu = '<select id="car_select">';
 		for (var i=0; i < myCars.length; i++) {
-			var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
+			var dropdown_menu = dropdown_menu+'<option value="'+myCars[i]+'">'+myCars[i]+"</option>";
 		}
-		var dropdown_menu = dropdown_menu + "</option></select>";
-		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+		dropdown_menu = dropdown_menu + "</option></select>";
+		return dropdown_menu;
+	}
+	
+	function openMarker(marker, map, place) {
+		var dropdown_menu = makeCarDropdownHtml();
+		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
+		console.log(html);
 		infowindow.setContent(html);
 		infowindow.open(map, marker);
 		
@@ -255,10 +262,11 @@ $(document).ready(function() {
 		directionsDisplay.setMap(map);
 		drawDirections(latlng, end, directionsDisplay);
 		
+		$
+		
 		$("#sendToGPS").live('click', function() {
-			
 			var carToSendTo = $('#car_select').val();
-			sendScreen(carToSendTo, marker, place, latlng, end, map);
+			sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
 		});
 	}
 	
@@ -278,7 +286,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	function sendScreen(carToSendTo, marker, place, latlng, end, map) {
+	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map) {
 		var sending = true;
 		
 		infowindow.close(map, marker);
@@ -288,7 +296,7 @@ $(document).ready(function() {
 		$('#cancel_send_button').click(function(){
 			$('#sending').hide();
 			$('#sending_background').hide();
-			infowindow.open(map, marker)
+			infowindow.open(map, marker);
 			sending = false;
 		});
 		
@@ -298,8 +306,12 @@ $(document).ready(function() {
 			}
 			$('#sending').hide();
 			$('#sent').show();
-			$('#sent').html()
 			$('#sending_background').fadeOut();
+			$('#resend_button').click(function() {
+				$('#sent').hide();
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				// TODO: bug - resend name is undefined after 2 resends
+			});
 			
 			// Only send address to GPS if Toyota is selected
 			if (carToSendTo == "Toyota") {
