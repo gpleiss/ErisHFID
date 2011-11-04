@@ -101,28 +101,46 @@ $(document).ready(function() {
 	});
 	
 	var car_email = "toyo32aw3";
-	$('#gps_home_email').html(car_email+"@toyota.com");
+	$('.gps_email').html(car_email+"@toyota.com");
+	$('#gps_carinfo_serial').html(car_email);
 	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
-		$('#submitted_email').append($('#write').val()+"@toyota.com");
-		$('#gps_home_email').html($('#write').val()+"@toyota.com");
+		$('#submitted_email').html($('#write').val()+"@toyota.com");
+		$('.gps_email').html($('#write').val()+"@toyota.com");
 		car_email = $('#write').val();
+		$('#gps_carinfo_serial').html(car_email);
 	});
 	
 	$("#email_changed_ok").click(function(){
 		$('#new_email').hide();
+		$('#email_changed').hide();
+		$('#email_changed_bkgrnd').hide();
 		$('#cargps_home').show();
 	});
 	
 	
-	$("#gps_home_email").click(function(){
+	$(".gps_email").click(function(){
 		$('#cargps_home').hide();
 		$('#car_info').show();
 	});
 	
+	$("#car_info_button").click(function(){
+		$('#cargps_home').hide();
+		$('#car_info').show();
+	});
+	
+	$("#main_menu_button").click(function(){
+		$('#cargps_home').show();
+		$('#car_info').hide();
+	});
+	
+	$("#change_email_button").click(function(){
+		$('#new_email').show();
+		$('#car_info').hide();
+	});
 	
 	
 	

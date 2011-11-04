@@ -396,6 +396,35 @@ h1 {
 	text-align:center;
 }
 
+#car_info_header{
+	width:100%;
+	text-align:center;
+	font-size:3em;
+	color:black;
+	margin-top:20px;
+}
+
+#main_menu_button{
+	width:200px;
+	height:50px;
+	background-color:blue;
+}
+
+#car_info_table{
+	width:600px;
+	font-size:2em;
+	margin: 0 auto;
+	margin-top:30px;
+}
+#left_column{
+	width:300px;
+	font-size:2.5em;
+	font-weight:bold;
+	margin-left:40px;
+	margin-top:30px;
+	float:left;
+}
+
 #recentheader{
 	text-align:center;
 	padding-bottom:10px;
