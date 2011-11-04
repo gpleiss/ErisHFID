@@ -108,6 +108,23 @@
 						<input type="text" id="searchTextMap"/> <input type='button' id="searchButtonMap" value="Search"/>
 						<div id="map_canvas" style="width:100%; height:100%; display:none;">
 						</div>
+						<div class="send_notification" id="sending">
+							<span id="sending_header"></span>
+							<div id="send_bar" style="float: left; padding:15px 5px 0px">
+								<img width="150px" height="18px" src="images/sendbar.jpg" />
+							</div>
+							<div style="float: right; padding: 15px 5px 0px">
+								<input type="button" id="cancel_send_button" value="Cancel" />
+							</div>
+						</div>
+						<div class="send_notification" id="sent">
+							<span id="sent_header"><h2>Address Sent</h2></span>
+							<div style="float: right; padding: 15px 5px 0px">
+								<input type="button" id="resend_button" value="Resend" />
+							</div>
+							<div id="resend_car_select" style="float: right; padding: 15px 5px 0px"></div>
+						</div>
+						<div id="sending_background"></div>
 					</div>
 				</div>
 				
@@ -156,7 +173,8 @@
 								<img src="images/logo.png" id="yelplogo"></img>
 							</td>
 						</tr></table>
-					</div>  					<div id="extraText" style="display: none">
+					</div>  					
+					<div id="extraText" style="display: none">
 						<h1>Hi!</h1>
 					</div>
 					<div id="yelpLinkPopup">    
@@ -195,7 +213,7 @@
 		</div>
 			<div id="cargps_background">
 				<div id="cargps_header">
-					<h1 style="text-align:center; color:white">IMMA GPS, b*tches!</h1>
+					<h1 style="text-align:center; color:white">Toyota Navigation System</h1>
 				</div>
 				<div id="cargps">
 					<div class="cargps_task" id="cargps_home" style="">
@@ -228,12 +246,14 @@
 							<span style="float:left;" class="gps_email">email address</span>
 							<span style="float:right;" id="txt"></span>
 						</div>
-						<div class="home_button" style="margin-left:95px;">Destination</div>
-						<div class="home_button">Map</div>
-						<div class="home_button">Climate</div>
-						<div class="home_button" style="margin-left:95px;">Music</div>
-						<div class="home_button" id="car_info_button">Car Info</div>
-						<div class="home_button">Settings</div>
+						<div style="">
+						<div class="home_button" style="margin-left:95px;border-radius:5px;color:black;background-color:#b0cbec;">Destination</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Map</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Climate</div>
+						<div class="home_button" style="margin-left:95px;border-radius:5px;color:black;background-color:#b0cbec;">Music</div>
+						<div class="home_button" id="car_info_button"style="border-radius:5px;color:black;background-color:#b0cbec;">Car Info</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Settings</div>
+						</div>
 					
 					</div>
 					<div class="cargps_task" id="cargps_newaddress" style="">

@@ -11,6 +11,7 @@ $(document).ready(function() {
 	function clearMobileScreens() {
 		$('.home').hide();
 		$('.task').hide();
+		$('.send_notification').hide();
 		$('.gpsInner').hide();
 	}
 	
@@ -201,10 +202,7 @@ $(document).ready(function() {
 		}
 	}
 	
-	function addressMapScreen(name, loc_latlng) {
-		console.log(name);
-		console.log(loc_latlng);
-		
+	function addressMapScreen(name, loc_latlng) {		
 		$('#map_canvas').show();
 		var mapcenter_latlng = new google.maps.LatLng(42.293, -71.264);
 		$('#searchTextMap').val(name);
@@ -262,37 +260,33 @@ $(document).ready(function() {
 		}
 	}	
 	
-	function openMarker(marker, map, place) {
-		var dropdown_menu = "<select>";
+	function makeCarDropdownHtml() {
+		var dropdown_menu = '<select id="car_select">';
 		for (var i=0; i < myCars.length; i++) {
-			var dropdown_menu = dropdown_menu+"<option>"+myCars[i]+"</option>";
+			var dropdown_menu = dropdown_menu+'<option value="'+myCars[i]+'">'+myCars[i]+"</option>";
 		}
-		var dropdown_menu = dropdown_menu + "</option></select>";
-		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+		dropdown_menu = dropdown_menu + "</option></select>";
+		return dropdown_menu;
+	}
+	
+	function openMarker(marker, map, place) {
+		var dropdown_menu = makeCarDropdownHtml();
+		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
+		console.log(html);
 		infowindow.setContent(html);
 		infowindow.open(map, marker);
-		console.log(infowindow);
 		
 		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
 		directionsDisplay.setMap(map);
 		drawDirections(latlng, end, directionsDisplay);
 		
+		$
+		
 		$("#sendToGPS").live('click', function() {
-			$('#cargps_home').fadeOut();
-			$('#cargps_newaddress').fadeIn();
-			$('#cargps_newaddress_map').show();
-			// set up new map
-			var mapGPS = new google.maps.Map(document.getElementById("cargps_newaddress_map"),myOptions);
-			// set up directions
-			var directionsDisplayGPS = new google.maps.DirectionsRenderer();
-			directionsDisplayGPS.setMap(mapGPS);
-			drawDirections(latlng, end, directionsDisplayGPS);
-			
-			$('#cargps_newaddress_info').show();
-			$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
-			$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');
+			var carToSendTo = $('#car_select').val();
+			sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
 		});
-	}	
+	}
 	
 	function drawDirections(start, end, display){
 		console.log('draw directions');
@@ -308,6 +302,56 @@ $(document).ready(function() {
 				display.setDirections(result);
 			}
 		});
+	}
+	
+	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map) {
+		var sending = true;
+		
+		infowindow.close(map, marker);
+		$('#sending_header').html('<h2>Sending to ' + carToSendTo + '</h2>');
+		$('#sending').show();
+		$('#sending_background').fadeIn();
+		$('#cancel_send_button').click(function(){
+			$('#sending').hide();
+			$('#sending_background').hide();
+			infowindow.open(map, marker);
+			sending = false;
+		});
+		
+		setTimeout(function() {
+			if (!sending) { // If user canceled sending
+				return;
+			}
+			$('#sending').hide();
+			$('#sent').show();
+			$('#sending_background').fadeOut();
+			$('#resend_button').click(function() {
+				$('#sent').hide();
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				// TODO: bug - resend name is undefined after 2 resends
+			});
+			
+			// Only send address to GPS if Toyota is selected
+			if (carToSendTo == "Toyota") {
+				gpsRecieveAddress(place, latlng, end);
+			}
+		}, 2000);
+	}
+	
+	function gpsRecieveAddress(place, latlng, end) {
+		$('#cargps_home').fadeOut();
+		$('#cargps_newaddress').fadeIn();
+		$('#cargps_newaddress_map').show();
+		// set up new map
+		var mapGPS = new google.maps.Map(document.getElementById("cargps_newaddress_map"),myOptions);
+		// set up directions
+		var directionsDisplayGPS = new google.maps.DirectionsRenderer();
+		directionsDisplayGPS.setMap(mapGPS);
+		drawDirections(latlng, end, directionsDisplayGPS);
+		
+		$('#cargps_newaddress_info').show();
+		$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
+		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
 	}
 	
 	// Yelp "open with GPS connect" popup
