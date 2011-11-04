@@ -17,7 +17,7 @@
 	<script src="js/keyboard.js"></script>
 	
 </head>
-<body>
+<body onload="startTime()">
 	<div id="instructions" class="flash">
 		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
 	</div>
@@ -217,9 +217,46 @@
 				</div>
 				<div id="cargps">
 					<div class="cargps_task" id="cargps_home" style="">
-						<img src="images/toyota_logo.png" style="width: 250px; display:block; margin: 100px auto 100px;" />
+						<script>
+						function startTime()
+						{
+							
+							var today=new Date();
+							var h=today.getHours();
+							var m=today.getMinutes();
+							var s=today.getSeconds();
+							// add a zero in front of numbers<10
+							m=checkTime(m);
+							s=checkTime(s);
+							
+							document.getElementById('txt').innerHTML=h+":"+m;
+							t=setTimeout('startTime()',500);
+							}
+							
+							function checkTime(i)
+							{
+							if (i<10)
+							  {
+							  i="0" + i;
+							  }
+							return i;
+						}
+						</script>
+						<div id="home_header">
+							<span style="float:left;" id="gps_home_email">email address</span>
+							<span style="float:right;" id="txt"></span>
+						</div>
+						<div style="">
+						<div class="home_button" style="margin-left:95px;border-radius:5px;color:black;background-color:#b0cbec;">Destination</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Map</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Climate</div>
+						<div class="home_button" style="margin-left:95px;border-radius:5px;color:black;background-color:#b0cbec;">Music</div>
+						<div class="home_button" id="car_info_button"style="border-radius:5px;color:black;background-color:#b0cbec;">Car Info</div>
+						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">Settings</div>
+						</div>
+					
 					</div>
-					<div class="cargps_task" id="cargps_newaddress" style="display:none;">
+					<div class="cargps_task" id="cargps_newaddress" style="">
 						<h1 style="text-align:center">Address from MYDRIOD</h1>
 						<div id="cargps_newaddress_map">
 						</div>
@@ -233,15 +270,13 @@
 						</div>
 					</div>
 					
-					<div class="cargps_task" id="new_email" style="display:none">
+					<div class="cargps_task" id="new_email" style="display:none;">
 						<h1 style="text-align:center">Enter new email address</h1>
 						<div id="email_entry">
-							<textarea id="write" placeholder="Enter Text..."></textarea>@toyota.com
+							<input type="text" id="write" value="Enter Text Here" />&nbsp&nbsp@toyota.com
 						</div>
-						
-						
-						<div id="email_availability">
-							Available?!?
+						<div id="email_submit">
+							Submit
 						</div>
 						<div id="gps_keyboard">
 							<div id="container">
@@ -304,6 +339,21 @@
 								</ul>
 							</div>
 						</div>
+						<div id="email_changed" style="display:none;">
+							<h1>Email changed to</h1>
+							<h1 id="submitted_email"></h1>
+							<div id="email_changed_ok">
+								OK
+							</div>
+						</div>
+						<div id="email_changed_bkgrnd" style="display:none;">
+							<p></p>
+						</div>
+					</div>
+					
+					<div class="cargps_task" id="car_info" style="display:none;">
+						<div id="car_info_header">Car Info</div>
+						<div id="left_column">
 					</div>
 				</div>
 			</div>

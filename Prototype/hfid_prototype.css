@@ -302,12 +302,12 @@ h1 {
 #email_entry{
 	width:500px;
 	height:50px;
-	background-color:red;
-	margin-top:20px;
-	margin-bottom:20px;
-	margin-left:40px;
-	float:left;
+	background-color:#b0cbec;
+	padding-top:6px;
+	padding-left:6px;
+	margin:20px 0px 20px 20px;
 	font-size:2em;
+	border-radius:5px;
 }
 
 #newGPSemail{
@@ -315,21 +315,85 @@ h1 {
 	width:250px;
 }
 
-#email_availability{
-	height:100px;
+#email_submit{
+	height:40px;
 	width:100px;
-	margin-top:20px;
-	margin-bottom:20px;
+	margin-top:-80px;
+	margin-bottom:135px;
+	margin-right:20px;
+	padding:20px 0px 0px 0px;
 	float:right;
 	background-color:#97e6e6;
 	text-align:center;
+	border-radius:5px;
 }
+
+#email_changed{
+	z-index:300;
+	position:absolute;
+	margin-left:141px;
+	margin-top:60px;
+	width:340px;
+	height:140px;
+	background-color:#E3E3E3;
+	padding:30px;
+	text-align:center;
+}
+
+#email_changed_ok{
+	background-color:#B0CBEC;
+	width:150px;
+	height:35px;
+	padding-top:5px;
+	border-radius:5px;
+	margin:0 auto;
+	font-size:1.7em;
+	margin-top:20px;
+}
+
+#email_changed_bkgrnd{
+	z-index:200;
+	position:absolute;
+	background-color:black;
+	opacity:0.4;
+	height:100%;
+	width:100%;
+	margin-left:-10px;
+	margin-top:-49px;
+}
+
 
 #gps_keyboard{
 	width: 100%;
 	background-color:#E3E3E3;
 	height:230px;
 	float:left;
+	margin-top:-100px;
+}
+
+#home_header{
+	background-color:#3b3b3b;
+	color:white;
+	width:98%;
+	height:30px;
+	margin-left:-10px;
+	margin-top:-10px;
+	padding:10px 20px 0 20px;
+	font-size:1.3em;
+	
+}
+
+.home_button{
+	margin-left:40px;
+	margin-top:40px;
+	width:120px;
+	height:120px;
+	background-color:#0b3991;
+	color:white;
+	float:left;
+	font-size:1.6em;
+	padding:10px;
+	text-align:center;
 }
 
 #recentheader{
@@ -490,4 +554,12 @@ h1 {
 	height:300px;
 	opacity: 0.3;
 	background: #000000;
+}
+
+#write{
+	margin:2px 5px 0px 0px;
+}
+
+.homescreen{
+	border-radius:5px;
 }

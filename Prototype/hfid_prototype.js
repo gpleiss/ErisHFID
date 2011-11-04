@@ -58,6 +58,7 @@ $(document).ready(function() {
 			$('#map').show();
 			//initialize();
 		}
+		document.earchTextMap.focus();
 	});
 	
 	// hide all tasks
@@ -98,6 +99,33 @@ $(document).ready(function() {
 		}
 		console.log(myCars);
 	});
+	
+	var car_email = "toyo32aw3";
+	$('#gps_home_email').html(car_email+"@toyota.com");
+	
+	
+	$('#email_submit').click(function(){
+		$('#email_changed').show();
+		$('#email_changed_bkgrnd').show();
+		$('#submitted_email').append($('#write').val()+"@toyota.com");
+		$('#gps_home_email').html($('#write').val()+"@toyota.com");
+		car_email = $('#write').val();
+	});
+	
+	$("#email_changed_ok").click(function(){
+		$('#new_email').hide();
+		$('#cargps_home').show();
+	});
+	
+	
+	$("#gps_home_email").click(function(){
+		$('#cargps_home').hide();
+		$('#car_info').show();
+	});
+	
+	
+	
+	
 	
 	// google maps
 	var latlng = new google.maps.LatLng(42.293, -71.264);
@@ -339,5 +367,8 @@ $(document).ready(function() {
 		$('#map').show();
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
+	
+	
+	
 	
 });
