@@ -1,4 +1,7 @@
-var myCars = new Array("Toyota", "Honda", "Ford");
+var myCars = {"Toyota":"toyo32aw3@toyota.com",
+			  "Honda":"accord320b@honda.com", 
+			  "Ford":"f2ab44b2@ford.com"};
+			  
 
 $(document).ready(function() {
 	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
@@ -82,8 +85,10 @@ $(document).ready(function() {
 	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
-		myCars.push(newCar);
-		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"  title=\"" + newCar +"\"><span id=\"cardelete\">x</span></div></div><br />");
+		var newCarEmail = $('#newCarEmail').val();
+		myCars[newCar] = newCarEmail;
+		newCarHtml = generateCarListEntryHtml(car, email);
+		$('#carList').append(newCarHtml);
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
@@ -101,16 +106,17 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
-	var car_email = "toyo32aw3";
-	$('#gps_home_email').html(car_email+"@toyota.com");
+	var car_email = myCars["Toyota"];
+	$('#gps_home_email').html(car_email);
 	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
-		$('#submitted_email').append($('#write').val()+"@toyota.com");
-		$('#gps_home_email').html($('#write').val()+"@toyota.com");
-		car_email = $('#write').val();
+		car_email = $('#write').val() + '@toyota.com';
+		$('#submitted_email').append(car_emial);
+		$('#gps_home_email').html(car_email);
+		myCars["Toyota"] = car_email;
 	});
 	
 	$("#email_changed_ok").click(function(){
@@ -244,9 +250,9 @@ $(document).ready(function() {
 	
 	function makeCarDropdownHtml() {
 		var dropdown_menu = '<select id="car_select">';
-		for (var i=0; i < myCars.length; i++) {
-			var dropdown_menu = dropdown_menu+'<option value="'+myCars[i]+'">'+myCars[i]+"</option>";
-		}
+		$.each(myCars, function(car, email){
+			dropdown_menu = dropdown_menu+'<option value="'+car+'">'+car+"</option>";
+		});
 		dropdown_menu = dropdown_menu + "</option></select>";
 		return dropdown_menu;
 	}
@@ -254,7 +260,6 @@ $(document).ready(function() {
 	function openMarker(marker, map, place) {
 		var dropdown_menu = makeCarDropdownHtml();
 		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
-		console.log(html);
 		infowindow.setContent(html);
 		infowindow.open(map, marker);
 		
@@ -380,7 +385,16 @@ $(document).ready(function() {
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
 	
-	
-	
-	
 });
+
+function generateCarListEntryHtml(car, email) {
+	var html = '<div class="car">';
+	html = html + '<div class="carbackground">';
+	html = html + '<div class="car_name">'+name+'</div>';
+	html = html + '<div class="car_email">'+email+'</div>';
+	html = html + '</div>';
+	html = html + '<div class="cardelete" title="'+name+'">';
+	html = html + '<span id="cardelete">x</span>';
+	html = html + '</div></div><br />';
+	return html;
+}
