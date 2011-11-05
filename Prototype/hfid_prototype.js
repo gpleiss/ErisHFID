@@ -1,4 +1,7 @@
-var myCars = new Array("Toyota", "Honda", "Ford");
+var myCars = {"Toyota":"toyo32aw3@toyota.com",
+			  "Honda":"accord320b@honda.com", 
+			  "Ford":"f2ab44b2@ford.com"};
+			  
 
 $(document).ready(function() {
 	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
@@ -82,8 +85,10 @@ $(document).ready(function() {
 	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
-		myCars.push(newCar);
-		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"  title=\"" + newCar +"\"><span id=\"cardelete\">x</span></div></div><br />");
+		var newCarEmail = $('#newCarEmail').val();
+		myCars[newCar] = newCarEmail;
+		newCarHtml = generateCarListEntryHtml(car, email);
+		$('#carList').append(newCarHtml);
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
@@ -104,7 +109,6 @@ $(document).ready(function() {
 	var car_email = "toyo32aw3";
 	$('.gps_email').html(car_email+"@toyota.com");
 	$('#gps_carinfo_serial').html(car_email);
-	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
@@ -267,9 +271,9 @@ $(document).ready(function() {
 	
 	function makeCarDropdownHtml() {
 		var dropdown_menu = '<select id="car_select">';
-		for (var i=0; i < myCars.length; i++) {
-			var dropdown_menu = dropdown_menu+'<option value="'+myCars[i]+'">'+myCars[i]+"</option>";
-		}
+		$.each(myCars, function(car, email){
+			dropdown_menu = dropdown_menu+'<option value="'+car+'">'+car+"</option>";
+		});
 		dropdown_menu = dropdown_menu + "</option></select>";
 		return dropdown_menu;
 	}
@@ -450,5 +454,16 @@ $(document).ready(function() {
 		$('#map').show();
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
-
 });
+
+function generateCarListEntryHtml(car, email) {
+	var html = '<div class="car">';
+	html = html + '<div class="carbackground">';
+	html = html + '<div class="car_name">'+name+'</div>';
+	html = html + '<div class="car_email">'+email+'</div>';
+	html = html + '</div>';
+	html = html + '<div class="cardelete" title="'+name+'">';
+	html = html + '<span id="cardelete">x</span>';
+	html = html + '</div></div><br />';
+	return html;
+}

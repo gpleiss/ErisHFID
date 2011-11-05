@@ -66,17 +66,12 @@
 							<br/>
 							Cars
 							<div id="carList">
-								<!--<div class="car">Toyota</div>
-								<div class="car">Honda</div>
-								<div class="car">Ford</div>-->
-								
 								<script type="text/javascript">
-									console.log(myCars);
-									var myCars = new Array("Toyota", "Honda", "Ford");
-									for (var p=0; p < myCars.length; p++) {
-										console.log("p");
-										document.write("<div class=\"car\"><div class=\"carbackground\">"+myCars[p]+"</div><div class=\"cardelete\" title=\"" + myCars[p] +"\"><span id=\"cardelete\">x</span></div></div><br />");
-									}
+									console.log("Car list:");
+									$.each(myCars, function(car, email) {
+										carListEntry = generateCarListEntryHtml(car, email);
+										document.write(carListEntry);
+									});
 								</script>
 							</div>
 						<div><input type='button' id="addCar" value="Add Car"/></div>

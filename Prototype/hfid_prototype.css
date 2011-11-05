@@ -116,14 +116,22 @@ h1 {
 	width:200px;
 }
 
-.carbackground{
-	padding:20px;
-	height:20px;
-	width:140px;
-	background-color:#B0CBEC;
-	font-weight:bolder;
-	float:left;
+.carbackground {
+	height: 50px;
+	width: 180px;
+	background-color: #B0CBEC;
+	float: left;
 }
+
+.car_name{
+	font-weight: bolder;
+	padding: 8px 8px 2px;
+}
+
+.car_email{
+	padding: 0px 8px 8px;
+}
+
 .cardelete{
 	float:right;
 	padding-top:20px;
