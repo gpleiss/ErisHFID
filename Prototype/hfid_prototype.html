@@ -65,15 +65,7 @@
 							<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
 							<br/>
 							Cars
-							<div id="carList">
-								<script type="text/javascript">
-									console.log("Car list:");
-									$.each(myCars, function(car, email) {
-										carListEntry = generateCarListEntryHtml(car, email);
-										document.write(carListEntry);
-									});
-								</script>
-							</div>
+							<div id="carList"></div>
 						<div><input type='button' id="addCar" value="Add Car"/></div>
 					</div>
 					<div id="addCarDiv" style="display:none;">

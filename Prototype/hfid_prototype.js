@@ -78,6 +78,11 @@ $(document).ready(function() {
 		addressMapScreen(name, new google.maps.LatLng(lat, lng));
 	});
 	
+	$.each(myCars, function(car, email) {
+		carListEntry = generateCarListEntryHtml(car, email);
+		$('#carList').append(carListEntry);
+	});
+	
 	$('#addCar').click(function(){
 		$('#mainSettings').hide();
 		$('#addCarDiv').show();
@@ -106,30 +111,22 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
-<<<<<<< HEAD
 	var car_email = myCars["Toyota"];
 	$('#gps_home_email').html(car_email);
-=======
 	var car_email = "toyo32aw3";
 	$('.gps_email').html(car_email+"@toyota.com");
-	$('#gps_carinfo_serial').html(car_email);
->>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
+	$('#gps_carinfo_serial').html(car_email.substring(0, car_email.length - 11));
 	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
-<<<<<<< HEAD
 		car_email = $('#write').val() + '@toyota.com';
+		car_serial = $('#write').val();
 		$('#submitted_email').append(car_emial);
 		$('#gps_home_email').html(car_email);
 		myCars["Toyota"] = car_email;
-=======
-		$('#submitted_email').html($('#write').val()+"@toyota.com");
-		$('.gps_email').html($('#write').val()+"@toyota.com");
-		car_email = $('#write').val();
 		$('#gps_carinfo_serial').html(car_email);
->>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
 	});
 	
 	
