@@ -115,6 +115,14 @@ $(document).ready(function() {
 		$('#gps_carinfo_serial').html(car_email);
 	});
 	
+	
+	
+	$("#email_cancel").click(function(){
+		$('#new_email').hide();
+		$('#car_info').show();
+	});
+	
+	
 	$("#email_changed_ok").click(function(){
 		$('#new_email').hide();
 		$('#email_changed').hide();
