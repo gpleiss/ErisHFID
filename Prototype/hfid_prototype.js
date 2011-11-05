@@ -62,7 +62,6 @@ $(document).ready(function() {
 			$('#map').show();
 			//initialize();
 		}
-		document.earchTextMap.focus();
 	});
 	
 	// hide all tasks
