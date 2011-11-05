@@ -339,7 +339,7 @@ $(document).ready(function() {
 			
 			$("#sendToGPS").live('click', function() {
 				var carToSendTo = $('#car_select').val();
-				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration);
 			});
 		}
 	}
@@ -360,7 +360,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map) {
+	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration) {
 		var sending = true;
 		
 		infowindow.close(map, marker);
@@ -383,18 +383,18 @@ $(document).ready(function() {
 			$('#sending_background').fadeOut();
 			$('#resend_button').click(function() {
 				$('#sent').hide();
-				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration);
 				// TODO: bug - resend name is undefined after 2 resends
 			});
 			
 			// Only send address to GPS if Toyota is selected
 			if (carToSendTo == "Toyota") {
-				gpsRecieveAddress(place, latlng, end);
+				gpsRecieveAddress(place, latlng, end, distance, duration);
 			}
 		}, 2000);
 	}
 	
-	function gpsRecieveAddress(place, latlng, end) {
+	function gpsRecieveAddress(place, latlng, end, distance, duration) {
 		$('#cargps_home').fadeOut();
 		$('#cargps_newaddress').fadeIn();
 		$('#cargps_newaddress_map').show();
@@ -407,7 +407,7 @@ $(document).ready(function() {
 		
 		$('#cargps_newaddress_info').show();
 		$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
-		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
+		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '<br/>Distance: '+distance+'<br/>Estimated Time:'+duration+'</h3>');		
 	}
 	
 	function addressPopup(){
