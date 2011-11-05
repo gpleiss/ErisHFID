@@ -62,7 +62,6 @@ $(document).ready(function() {
 			$('#map').show();
 			//initialize();
 		}
-		document.earchTextMap.focus();
 	});
 	
 	// hide all tasks
@@ -104,7 +103,7 @@ $(document).ready(function() {
 		var newCar = $('#newCarAlias').val();
 		var newCarEmail = $('#newCarEmail').val();
 		myCars[newCar] = newCarEmail;
-		newCarHtml = generateCarListEntryHtml(car, email);
+		newCarHtml = generateCarListEntryHtml(newCar, newCarEmail);
 		$('#carList').append(newCarHtml);
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
@@ -113,13 +112,12 @@ $(document).ready(function() {
 	$('.cardelete').live('click', function(){
 		var p = $(this).attr("title");
 		// find correct car and delete
-		for (var i = 0; i<myCars.length; i++){
-			if (myCars[i] == p){
-				myCars.splice(i, 1);
+		$.each(myCars, function(car, email) {
+			if (car == p) {
+				myCars[car] = null;
 				$(this).parent().remove();
-				break;
 			}
-		}
+		});
 		console.log(myCars);
 	});
 	
