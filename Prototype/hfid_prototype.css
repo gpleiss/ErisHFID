@@ -566,7 +566,7 @@ h1 {
 	margin-left:20px;
 }
 
-#addressLink{
+.addressLink{
 	font-size:12px;
 	background-color: yellow;
 	text-decoration:none;
