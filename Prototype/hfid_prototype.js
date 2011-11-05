@@ -106,38 +106,76 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
+<<<<<<< HEAD
 	var car_email = myCars["Toyota"];
 	$('#gps_home_email').html(car_email);
+=======
+	var car_email = "toyo32aw3";
+	$('.gps_email').html(car_email+"@toyota.com");
+	$('#gps_carinfo_serial').html(car_email);
+>>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
 	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
+<<<<<<< HEAD
 		car_email = $('#write').val() + '@toyota.com';
 		$('#submitted_email').append(car_emial);
 		$('#gps_home_email').html(car_email);
 		myCars["Toyota"] = car_email;
+=======
+		$('#submitted_email').html($('#write').val()+"@toyota.com");
+		$('.gps_email').html($('#write').val()+"@toyota.com");
+		car_email = $('#write').val();
+		$('#gps_carinfo_serial').html(car_email);
+>>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
 	});
+	
+	
+	
+	$("#email_cancel").click(function(){
+		$('#new_email').hide();
+		$('#car_info').show();
+	});
+	
 	
 	$("#email_changed_ok").click(function(){
 		$('#new_email').hide();
+		$('#email_changed').hide();
+		$('#email_changed_bkgrnd').hide();
 		$('#cargps_home').show();
 	});
 	
 	
-	$("#gps_home_email").click(function(){
+	$(".gps_email").click(function(){
 		$('#cargps_home').hide();
 		$('#car_info').show();
 	});
 	
+	$("#car_info_button").click(function(){
+		$('#cargps_home').hide();
+		$('#car_info').show();
+	});
+	
+	$("#main_menu_button").click(function(){
+		$('#cargps_home').show();
+		$('#car_info').hide();
+	});
+	
+	$("#change_email_button").click(function(){
+		$('#new_email').show();
+		$('#car_info').hide();
+	});
 	
 	
 	
 	
 	// google maps
-	var latlng = new google.maps.LatLng(42.293, -71.264);
-	var directionsService = new google.maps.DirectionsService();	
-	var directionsDisplay = new google.maps.DirectionsRenderer();
+	var latlng 				= new google.maps.LatLng(42.293, -71.264);
+	var directionsService 	= new google.maps.DirectionsService();	
+	var directionsDisplay	= new google.maps.DirectionsRenderer();
+	var distanceService		= new google.maps.DistanceMatrixService();
 	var myOptions = {
 	  zoom: 8,
 	  center: latlng,
@@ -259,20 +297,48 @@ $(document).ready(function() {
 	
 	function openMarker(marker, map, place) {
 		var dropdown_menu = makeCarDropdownHtml();
-		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
-		infowindow.setContent(html);
-		infowindow.open(map, marker);
-		
 		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
-		directionsDisplay.setMap(map);
-		drawDirections(latlng, end, directionsDisplay);
-		
-		$
-		
-		$("#sendToGPS").live('click', function() {
-			var carToSendTo = $('#car_select').val();
-			sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
-		});
+		distanceService.getDistanceMatrix(
+		{
+			origins: [latlng],
+			destinations: [end],
+			travelMode: google.maps.TravelMode.DRIVING,
+			avoidHighways: false,
+			avoidTolls: false
+		}, distanceServiceCallback);
+
+		function distanceServiceCallback(response, status) {
+		// See Parsing the Results for
+		// the basics of a callback function.
+			if (status == google.maps.DistanceMatrixStatus.OK) {
+				var origins = response.originAddresses;
+				var destinations = response.destinationAddresses;
+
+				for (var i = 0; i < origins.length; i++) {
+					var results = response.rows[i].elements;
+					for (var j = 0; j < results.length; j++) {
+						var element = results[j];
+						var distance = element.distance.text;
+						var duration = element.duration.text;
+						var from = origins[i];
+						var to = destinations[j];
+					}
+				}
+			}
+			var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br/>Distance: '+distance+'<br/>Time: '+duration+'<br/>'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			console.log(html);
+			infowindow.setContent(html);
+			infowindow.open(map, marker);
+			
+			
+			directionsDisplay.setMap(map);
+			drawDirections(latlng, end, directionsDisplay);
+			
+			$("#sendToGPS").live('click', function() {
+				var carToSendTo = $('#car_select').val();
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+			});
+		}
 	}
 	
 	function drawDirections(start, end, display){
@@ -341,8 +407,7 @@ $(document).ready(function() {
 		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
 	}
 	
-	// Yelp "open with GPS connect" popup
-	$('#addressLink').click(function() {
+	function addressPopup(){
 		// Center the popup
 		var padding = parseInt($('#phone').css("padding-left"), 10);
 		var phoneScreenTop = $('#phone').position().top - padding;
@@ -369,6 +434,15 @@ $(document).ready(function() {
 		$('#back').click(function() {
 			closeYelpLinkPopup();
 		});
+	}
+	
+	$('#yelplogo').click(function(){
+		addressPopup();	
+	});
+	
+	// Yelp "open with GPS connect" popup
+	$('#addressLink').click(function() {
+		addressPopup();	
 	});	
 	
 	function closeYelpLinkPopup() {
