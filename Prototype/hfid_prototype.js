@@ -123,8 +123,9 @@ $(document).ready(function() {
 		$('#email_changed_bkgrnd').show();
 		car_email = $('#write').val() + '@toyota.com';
 		car_serial = $('#write').val();
-		$('#submitted_email').append(car_emial);
+		$('#submitted_email').html(car_email);
 		$('#gps_home_email').html(car_email);
+		$('.gps_email').html(car_email);
 		myCars["Toyota"] = car_email;
 		$('#gps_carinfo_serial').html(car_email);
 	});
