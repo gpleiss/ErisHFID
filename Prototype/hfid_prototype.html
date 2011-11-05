@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="hfid_prototype.js"></script>
 	<!-- keyboard required stuff -->
 	<link href="keyboard.css" rel="stylesheet">
-	<script src="js/keyboard.js"></script>
+	<script type="text/javascript" src="js/keyboard.js"></script>
 	
 </head>
 <body onload="startTime()">
@@ -65,15 +65,7 @@
 							<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
 							<br/>
 							Cars
-							<div id="carList">
-								<script type="text/javascript">
-									console.log("Car list:");
-									$.each(myCars, function(car, email) {
-										carListEntry = generateCarListEntryHtml(car, email);
-										document.write(carListEntry);
-									});
-								</script>
-							</div>
+							<div id="carList"></div>
 						<div><input type='button' id="addCar" value="Add Car"/></div>
 					</div>
 					<div id="addCarDiv" style="display:none;">
@@ -255,7 +247,7 @@
 						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
 						Music <img src="images/gpsmusic.jpg" style="margin:20px;"/></div>
 						
-						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
+						<div class="home_button" id="car_info_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
 						Car Info <img src="images/gpsinfo.jpg" style="margin-top:15px"/></div>
 						
 						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
@@ -280,7 +272,8 @@
 					<div class="cargps_task" id="new_email" style="display:none;">
 						<h1 style="text-align:center">Enter new email address</h1>
 						<div id="email_entry">
-							<input type="text" id="write" value="Enter Text Here" />&nbsp&nbsp@toyota.com
+							<input id="write"></input>
+							&nbsp&nbsp@toyota.com
 						</div>
 						<div id="email_submit">
 							Submit

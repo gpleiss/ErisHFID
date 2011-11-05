@@ -78,6 +78,23 @@ $(document).ready(function() {
 		addressMapScreen(name, new google.maps.LatLng(lat, lng));
 	});
 	
+	$.each(myCars, function(car, email) {
+		carListEntry = generateCarListEntryHtml(car, email);
+		$('#carList').append(carListEntry);
+	});
+	
+	function generateCarListEntryHtml(car, email) {
+		var html = '<div class="car">';
+		html = html + '<div class="carbackground">';
+		html = html + '<div class="car_name">'+car+'</div>';
+		html = html + '<div class="car_email">'+email+'</div>';
+		html = html + '</div>';
+		html = html + '<div class="cardelete" title="'+car+'">';
+		html = html + '<span id="cardelete">x</span>';
+		html = html + '</div></div><br />';
+		return html;
+	}
+	
 	$('#addCar').click(function(){
 		$('#mainSettings').hide();
 		$('#addCarDiv').show();
@@ -106,20 +123,23 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
+	var car_email = myCars["Toyota"];
+	$('#gps_home_email').html(car_email);
 	var car_email = "toyo32aw3";
 	$('.gps_email').html(car_email+"@toyota.com");
-	$('#gps_carinfo_serial').html(car_email);
+	$('#gps_carinfo_serial').html(car_email.substring(0, car_email.length - 11));
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
-		$('#submitted_email').html($('#write').val()+"@toyota.com");
-		$('.gps_email').html($('#write').val()+"@toyota.com");
-		car_email = $('#write').val();
+		car_email = $('#write').val() + '@toyota.com';
+		car_serial = $('#write').val();
+		$('#submitted_email').html(car_email);
+		$('#gps_home_email').html(car_email);
+		$('.gps_email').html(car_email);
+		myCars["Toyota"] = car_email;
 		$('#gps_carinfo_serial').html(car_email);
 	});
-	
-	
 	
 	$("#email_cancel").click(function(){
 		$('#new_email').hide();
@@ -455,15 +475,3 @@ $(document).ready(function() {
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
 });
-
-function generateCarListEntryHtml(car, email) {
-	var html = '<div class="car">';
-	html = html + '<div class="carbackground">';
-	html = html + '<div class="car_name">'+name+'</div>';
-	html = html + '<div class="car_email">'+email+'</div>';
-	html = html + '</div>';
-	html = html + '<div class="cardelete" title="'+name+'">';
-	html = html + '<span id="cardelete">x</span>';
-	html = html + '</div></div><br />';
-	return html;
-}
