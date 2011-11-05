@@ -78,8 +78,10 @@ $(document).ready(function() {
 	});
 	
 	$.each(myCars, function(car, email) {
-		carListEntry = generateCarListEntryHtml(car, email);
-		$('#carList').append(carListEntry);
+		if (myCars[car] != null){
+			carListEntry = generateCarListEntryHtml(car, email);
+			$('#carList').append(carListEntry);
+		}
 	});
 	
 	function generateCarListEntryHtml(car, email) {
@@ -88,7 +90,7 @@ $(document).ready(function() {
 		html = html + '<div class="car_name">'+car+'</div>';
 		html = html + '<div class="car_email">'+email+'</div>';
 		html = html + '</div>';
-		html = html + '<div class="cardelete" title="'+car+'">';
+		html = html + '<div class="cardelete" title="'+email+'">';
 		html = html + '<span id="cardelete">x</span>';
 		html = html + '</div></div><br />';
 		return html;
@@ -111,11 +113,12 @@ $(document).ready(function() {
 	
 	$('.cardelete').live('click', function(){
 		var p = $(this).attr("title");
+		var element = $(this);
 		// find correct car and delete
 		$.each(myCars, function(car, email) {
-			if (car == p) {
+			if (myCars[car] == p) {
 				myCars[car] = null;
-				$(this).parent().remove();
+				element.parent().remove();
 			}
 		});
 		console.log(myCars);
@@ -342,7 +345,7 @@ $(document).ready(function() {
 			
 			$("#sendToGPS").live('click', function() {
 				var carToSendTo = $('#car_select').val();
-				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration);
 			});
 		}
 	}
@@ -363,7 +366,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map) {
+	function sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration) {
 		var sending = true;
 		
 		infowindow.close(map, marker);
@@ -386,18 +389,18 @@ $(document).ready(function() {
 			$('#sending_background').fadeOut();
 			$('#resend_button').click(function() {
 				$('#sent').hide();
-				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration);
 				// TODO: bug - resend name is undefined after 2 resends
 			});
 			
 			// Only send address to GPS if Toyota is selected
 			if (carToSendTo == "Toyota") {
-				gpsRecieveAddress(place, latlng, end);
+				gpsRecieveAddress(place, latlng, end, distance, duration);
 			}
 		}, 2000);
 	}
 	
-	function gpsRecieveAddress(place, latlng, end) {
+	function gpsRecieveAddress(place, latlng, end, distance, duration) {
 		$('#cargps_home').fadeOut();
 		$('#cargps_newaddress').fadeIn();
 		$('#cargps_newaddress_map').show();
@@ -410,7 +413,7 @@ $(document).ready(function() {
 		
 		$('#cargps_newaddress_info').show();
 		$('#cargps_newaddress_info_name').html('<h2>' + place.name + '</h2>');
-		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
+		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '<br/>Distance: '+distance+'<br/>Estimated Time:'+duration+'</h3>');		
 	}
 	
 	function addressPopup(){
