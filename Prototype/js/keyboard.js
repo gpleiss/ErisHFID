@@ -4,6 +4,7 @@ $(function(){
 		capslock = false;
 	
 	$('#keyboard li').click(function(){
+		console.log('keyboard event');
 		var $this = $(this),
 			character = $this.html(); // If it's a lowercase letter, nothing happens to this variable
 		
@@ -50,6 +51,9 @@ $(function(){
 		}
 		
 		// Add the character
-		$write.html($write.html() + character);
+		console.log(character)
+		var hello = $('#write').html()
+		console.log(hello)
+		$write.val($write.val() + character);
 	});
 });
