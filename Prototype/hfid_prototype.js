@@ -83,6 +83,18 @@ $(document).ready(function() {
 		$('#carList').append(carListEntry);
 	});
 	
+	function generateCarListEntryHtml(car, email) {
+		var html = '<div class="car">';
+		html = html + '<div class="carbackground">';
+		html = html + '<div class="car_name">'+car+'</div>';
+		html = html + '<div class="car_email">'+email+'</div>';
+		html = html + '</div>';
+		html = html + '<div class="cardelete" title="'+car+'">';
+		html = html + '<span id="cardelete">x</span>';
+		html = html + '</div></div><br />';
+		return html;
+	}
+	
 	$('#addCar').click(function(){
 		$('#mainSettings').hide();
 		$('#addCarDiv').show();
@@ -123,13 +135,10 @@ $(document).ready(function() {
 		$('#email_changed_bkgrnd').show();
 		car_email = $('#write').val() + '@toyota.com';
 		car_serial = $('#write').val();
-		$('#submitted_email').append(car_emial);
+		$('#submitted_email').append(car_email);
 		$('#gps_home_email').html(car_email);
-		myCars["Toyota"] = car_email;
 		$('#gps_carinfo_serial').html(car_email);
 	});
-	
-	
 	
 	$("#email_cancel").click(function(){
 		$('#new_email').hide();
@@ -457,15 +466,3 @@ $(document).ready(function() {
 	});
 	
 });
-
-function generateCarListEntryHtml(car, email) {
-	var html = '<div class="car">';
-	html = html + '<div class="carbackground">';
-	html = html + '<div class="car_name">'+name+'</div>';
-	html = html + '<div class="car_email">'+email+'</div>';
-	html = html + '</div>';
-	html = html + '<div class="cardelete" title="'+name+'">';
-	html = html + '<span id="cardelete">x</span>';
-	html = html + '</div></div><br />';
-	return html;
-}
