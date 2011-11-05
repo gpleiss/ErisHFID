@@ -78,8 +78,10 @@ $(document).ready(function() {
 	});
 	
 	$.each(myCars, function(car, email) {
-		carListEntry = generateCarListEntryHtml(car, email);
-		$('#carList').append(carListEntry);
+		if (myCars[car] != null){
+			carListEntry = generateCarListEntryHtml(car, email);
+			$('#carList').append(carListEntry);
+		}
 	});
 	
 	function generateCarListEntryHtml(car, email) {
@@ -88,7 +90,7 @@ $(document).ready(function() {
 		html = html + '<div class="car_name">'+car+'</div>';
 		html = html + '<div class="car_email">'+email+'</div>';
 		html = html + '</div>';
-		html = html + '<div class="cardelete" title="'+car+'">';
+		html = html + '<div class="cardelete" title="'+email+'">';
 		html = html + '<span id="cardelete">x</span>';
 		html = html + '</div></div><br />';
 		return html;
@@ -111,11 +113,12 @@ $(document).ready(function() {
 	
 	$('.cardelete').live('click', function(){
 		var p = $(this).attr("title");
+		var element = $(this);
 		// find correct car and delete
 		$.each(myCars, function(car, email) {
-			if (car == p) {
+			if (myCars[car] == p) {
 				myCars[car] = null;
-				$(this).parent().remove();
+				element.parent().remove();
 			}
 		});
 		console.log(myCars);
