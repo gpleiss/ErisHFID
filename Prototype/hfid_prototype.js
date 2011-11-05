@@ -147,9 +147,10 @@ $(document).ready(function() {
 	
 	
 	// google maps
-	var latlng = new google.maps.LatLng(42.293, -71.264);
-	var directionsService = new google.maps.DirectionsService();	
-	var directionsDisplay = new google.maps.DirectionsRenderer();
+	var latlng 				= new google.maps.LatLng(42.293, -71.264);
+	var directionsService 	= new google.maps.DirectionsService();	
+	var directionsDisplay	= new google.maps.DirectionsRenderer();
+	var distanceService		= new google.maps.DistanceMatrixService();
 	var myOptions = {
 	  zoom: 8,
 	  center: latlng,
@@ -271,21 +272,48 @@ $(document).ready(function() {
 	
 	function openMarker(marker, map, place) {
 		var dropdown_menu = makeCarDropdownHtml();
-		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
-		console.log(html);
-		infowindow.setContent(html);
-		infowindow.open(map, marker);
-		
 		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
-		directionsDisplay.setMap(map);
-		drawDirections(latlng, end, directionsDisplay);
-		
-		$
-		
-		$("#sendToGPS").live('click', function() {
-			var carToSendTo = $('#car_select').val();
-			sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
-		});
+		distanceService.getDistanceMatrix(
+		{
+			origins: [latlng],
+			destinations: [end],
+			travelMode: google.maps.TravelMode.DRIVING,
+			avoidHighways: false,
+			avoidTolls: false
+		}, distanceServiceCallback);
+
+		function distanceServiceCallback(response, status) {
+		// See Parsing the Results for
+		// the basics of a callback function.
+			if (status == google.maps.DistanceMatrixStatus.OK) {
+				var origins = response.originAddresses;
+				var destinations = response.destinationAddresses;
+
+				for (var i = 0; i < origins.length; i++) {
+					var results = response.rows[i].elements;
+					for (var j = 0; j < results.length; j++) {
+						var element = results[j];
+						var distance = element.distance.text;
+						var duration = element.duration.text;
+						var from = origins[i];
+						var to = destinations[j];
+					}
+				}
+			}
+			var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br/>Distance: '+distance+'<br/>Time: '+duration+'<br/>'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			console.log(html);
+			infowindow.setContent(html);
+			infowindow.open(map, marker);
+			
+			
+			directionsDisplay.setMap(map);
+			drawDirections(latlng, end, directionsDisplay);
+			
+			$("#sendToGPS").live('click', function() {
+				var carToSendTo = $('#car_select').val();
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+			});
+		}
 	}
 	
 	function drawDirections(start, end, display){
@@ -354,8 +382,7 @@ $(document).ready(function() {
 		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
 	}
 	
-	// Yelp "open with GPS connect" popup
-	$('#addressLink').click(function() {
+	function addressPopup(){
 		// Center the popup
 		var padding = parseInt($('#phone').css("padding-left"), 10);
 		var phoneScreenTop = $('#phone').position().top - padding;
@@ -382,6 +409,15 @@ $(document).ready(function() {
 		$('#back').click(function() {
 			closeYelpLinkPopup();
 		});
+	}
+	
+	$('#yelplogo').click(function(){
+		addressPopup();	
+	});
+	
+	// Yelp "open with GPS connect" popup
+	$('#addressLink').click(function() {
+		addressPopup();	
 	});	
 	
 	function closeYelpLinkPopup() {
