@@ -129,7 +129,6 @@ $(document).ready(function() {
 	$('.gps_email').html(car_email+"@toyota.com");
 	$('#gps_carinfo_serial').html(car_email.substring(0, car_email.length - 11));
 	
-	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
@@ -155,7 +154,6 @@ $(document).ready(function() {
 		$('#cargps_home').show();
 	});
 	
-	
 	$(".gps_email").click(function(){
 		$('#cargps_home').hide();
 		$('#car_info').show();
@@ -175,9 +173,6 @@ $(document).ready(function() {
 		$('#new_email').show();
 		$('#car_info').hide();
 	});
-	
-	
-	
 	
 	// google maps
 	var latlng 				= new google.maps.LatLng(42.293, -71.264);
@@ -444,12 +439,25 @@ $(document).ready(function() {
 		});
 	}
 	
-	$('#yelplogo').click(function(){
+	$('#highlight').click(function(){
+		// check if its checked
+		if ($('#highlight').is(':checked')){
+			$('#yelpAddress').addClass('addressLink');
+			$('#yelplogo').show();
+			$('#yelplogo').addClass('yelplogoLink');
+		}
+		else{
+			$('#yelpAddress').removeClass('addressLink');
+			$('#yelplogo').removeClass('yelplogoLink');
+			$('#yelplogo').hide();
+		}
+	});
+	$('.yelplogoLink').live('click', function(){
 		addressPopup();	
 	});
 	
 	// Yelp "open with GPS connect" popup
-	$('#addressLink').click(function() {
+	$('.addressLink').live('click', function(){
 		addressPopup();	
 	});	
 	
@@ -466,5 +474,4 @@ $(document).ready(function() {
 		$('#map').show();
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
-	
 });
