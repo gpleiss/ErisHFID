@@ -1,4 +1,7 @@
-var myCars = new Array("Toyota", "Honda", "Ford");
+var myCars = {"Toyota":"toyo32aw3@toyota.com",
+			  "Honda":"accord320b@honda.com", 
+			  "Ford":"f2ab44b2@ford.com"};
+			  
 
 $(document).ready(function() {
 	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
@@ -82,8 +85,10 @@ $(document).ready(function() {
 	
 	$('#saveCar').click(function(){
 		var newCar = $('#newCarAlias').val();
-		myCars.push(newCar);
-		$('#carList').append("<div class=\"car\"><div class=\"carbackground\">"+newCar+"</div><div class=\"cardelete\"  title=\"" + newCar +"\"><span id=\"cardelete\">x</span></div></div><br />");
+		var newCarEmail = $('#newCarEmail').val();
+		myCars[newCar] = newCarEmail;
+		newCarHtml = generateCarListEntryHtml(car, email);
+		$('#carList').append(newCarHtml);
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
 	});
@@ -101,18 +106,30 @@ $(document).ready(function() {
 		console.log(myCars);
 	});
 	
+<<<<<<< HEAD
+	var car_email = myCars["Toyota"];
+	$('#gps_home_email').html(car_email);
+=======
 	var car_email = "toyo32aw3";
 	$('.gps_email').html(car_email+"@toyota.com");
 	$('#gps_carinfo_serial').html(car_email);
+>>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
 	
 	
 	$('#email_submit').click(function(){
 		$('#email_changed').show();
 		$('#email_changed_bkgrnd').show();
+<<<<<<< HEAD
+		car_email = $('#write').val() + '@toyota.com';
+		$('#submitted_email').append(car_emial);
+		$('#gps_home_email').html(car_email);
+		myCars["Toyota"] = car_email;
+=======
 		$('#submitted_email').html($('#write').val()+"@toyota.com");
 		$('.gps_email').html($('#write').val()+"@toyota.com");
 		car_email = $('#write').val();
 		$('#gps_carinfo_serial').html(car_email);
+>>>>>>> 9cb368fd796a7e4fbddf61d50142a4dd897ca0b8
 	});
 	
 	
@@ -155,9 +172,10 @@ $(document).ready(function() {
 	
 	
 	// google maps
-	var latlng = new google.maps.LatLng(42.293, -71.264);
-	var directionsService = new google.maps.DirectionsService();	
-	var directionsDisplay = new google.maps.DirectionsRenderer();
+	var latlng 				= new google.maps.LatLng(42.293, -71.264);
+	var directionsService 	= new google.maps.DirectionsService();	
+	var directionsDisplay	= new google.maps.DirectionsRenderer();
+	var distanceService		= new google.maps.DistanceMatrixService();
 	var myOptions = {
 	  zoom: 8,
 	  center: latlng,
@@ -270,30 +288,57 @@ $(document).ready(function() {
 	
 	function makeCarDropdownHtml() {
 		var dropdown_menu = '<select id="car_select">';
-		for (var i=0; i < myCars.length; i++) {
-			var dropdown_menu = dropdown_menu+'<option value="'+myCars[i]+'">'+myCars[i]+"</option>";
-		}
+		$.each(myCars, function(car, email){
+			dropdown_menu = dropdown_menu+'<option value="'+car+'">'+car+"</option>";
+		});
 		dropdown_menu = dropdown_menu + "</option></select>";
 		return dropdown_menu;
 	}
 	
 	function openMarker(marker, map, place) {
 		var dropdown_menu = makeCarDropdownHtml();
-		var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br />'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/><br/><input type='button' id='close' value='Close'>"
-		console.log(html);
-		infowindow.setContent(html);
-		infowindow.open(map, marker);
-		
 		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
-		directionsDisplay.setMap(map);
-		drawDirections(latlng, end, directionsDisplay);
-		
-		$
-		
-		$("#sendToGPS").live('click', function() {
-			var carToSendTo = $('#car_select').val();
-			sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
-		});
+		distanceService.getDistanceMatrix(
+		{
+			origins: [latlng],
+			destinations: [end],
+			travelMode: google.maps.TravelMode.DRIVING,
+			avoidHighways: false,
+			avoidTolls: false
+		}, distanceServiceCallback);
+
+		function distanceServiceCallback(response, status) {
+		// See Parsing the Results for
+		// the basics of a callback function.
+			if (status == google.maps.DistanceMatrixStatus.OK) {
+				var origins = response.originAddresses;
+				var destinations = response.destinationAddresses;
+
+				for (var i = 0; i < origins.length; i++) {
+					var results = response.rows[i].elements;
+					for (var j = 0; j < results.length; j++) {
+						var element = results[j];
+						var distance = element.distance.text;
+						var duration = element.duration.text;
+						var from = origins[i];
+						var to = destinations[j];
+					}
+				}
+			}
+			var html=place.name+"<br />"+'<span style="font-size:.8em;">'+place.vicinity +'</span><br/>Distance: '+distance+'<br/>Time: '+duration+'<br/>'+dropdown_menu+"<br/><input type='button' id='sendToGPS' value='Send To GPS'/>"
+			console.log(html);
+			infowindow.setContent(html);
+			infowindow.open(map, marker);
+			
+			
+			directionsDisplay.setMap(map);
+			drawDirections(latlng, end, directionsDisplay);
+			
+			$("#sendToGPS").live('click', function() {
+				var carToSendTo = $('#car_select').val();
+				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map);
+			});
+		}
 	}
 	
 	function drawDirections(start, end, display){
@@ -362,8 +407,7 @@ $(document).ready(function() {
 		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '</h3>');		
 	}
 	
-	// Yelp "open with GPS connect" popup
-	$('#addressLink').click(function() {
+	function addressPopup(){
 		// Center the popup
 		var padding = parseInt($('#phone').css("padding-left"), 10);
 		var phoneScreenTop = $('#phone').position().top - padding;
@@ -390,6 +434,15 @@ $(document).ready(function() {
 		$('#back').click(function() {
 			closeYelpLinkPopup();
 		});
+	}
+	
+	$('#yelplogo').click(function(){
+		addressPopup();	
+	});
+	
+	// Yelp "open with GPS connect" popup
+	$('#addressLink').click(function() {
+		addressPopup();	
 	});	
 	
 	function closeYelpLinkPopup() {
@@ -406,7 +459,16 @@ $(document).ready(function() {
 		addressMapScreen('Trader Joes', new google.maps.LatLng(42.292, -71.235));
 	});
 	
-	
-	
-	
 });
+
+function generateCarListEntryHtml(car, email) {
+	var html = '<div class="car">';
+	html = html + '<div class="carbackground">';
+	html = html + '<div class="car_name">'+name+'</div>';
+	html = html + '<div class="car_email">'+email+'</div>';
+	html = html + '</div>';
+	html = html + '<div class="cardelete" title="'+name+'">';
+	html = html + '<span id="cardelete">x</span>';
+	html = html + '</div></div><br />';
+	return html;
+}
