@@ -698,3 +698,10 @@ h1 {
 	float:left;
 	margin:42px -80px 0px 35px;
 }
+
+.complete_action{
+	padding:5px;
+	padding-left:15px;
+	border-radius:3px;
+	background-color:#b0cbec;
+}
