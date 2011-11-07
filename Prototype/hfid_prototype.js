@@ -301,7 +301,7 @@ $(document).ready(function() {
 	
 	function openMarker(marker, map, place) {
 		var dropdown_menu = makeCarDropdownHtml();
-		var end = new google.maps.LatLng(marker.position.Na, marker.position.Oa);
+		var end = marker.position;
 		distanceService.getDistanceMatrix(
 		{
 			origins: [latlng],
@@ -317,7 +317,6 @@ $(document).ready(function() {
 			if (status == google.maps.DistanceMatrixStatus.OK) {
 				var origins = response.originAddresses;
 				var destinations = response.destinationAddresses;
-
 				for (var i = 0; i < origins.length; i++) {
 					var results = response.rows[i].elements;
 					for (var j = 0; j < results.length; j++) {
