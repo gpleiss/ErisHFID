@@ -4,7 +4,7 @@ var myCars = {"Toyota":"toyo32aw3@toyota.com",
 			  
 
 $(document).ready(function() {
-	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS does not work)", endpoint:"sendToGPS"}, 
+	var TASKLIST = [{msg:"Use the GPS Connect app and search for a 'Trader Joe's' Send that over to your GPS. (Note that the 'Go' button on the GPS would normally take you to the turn by turn directions instead of home)", endpoint:"sendToGPS"}, 
 	{msg:"Add a new car to the list of cars in the GPS Connect app.", endpoint:"addCar"}, 
 	{msg:"Go on yelp. Send the address of a resturant to your car from Yelp.", endpoint:"sendToGPSOther"},
 	{msg:"Look at your recent destinations. Send the address of a recent destination to your car.", endpoint:""}, 
@@ -173,6 +173,11 @@ $(document).ready(function() {
 	$("#change_email_button").click(function(){
 		$('#new_email').show();
 		$('#car_info').hide();
+	});
+	
+	$("#cargps_newaddress_info_gobutton").click(function(){
+		$('#cargps_home').show();
+		$('#cargps_newaddress').hide();
 	});
 	
 	// google maps
