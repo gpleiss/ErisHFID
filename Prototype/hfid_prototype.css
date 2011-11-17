@@ -107,8 +107,6 @@ h1 {
 	
 #headerimage{
 	margin-left:15px;
-	
-	
 }
 
 .car{
@@ -678,14 +676,14 @@ h1 {
 	margin-top:5px;
 	margin-bottom:0px;
 }
-	
+
 #resend_button{
 	background-color:#b0cbec;
 	border-radius:5px;
 	border-style:none;
 	width:70px;
 	height:25px;
-	margin: 0px 80px 0px 0px;
+	margin: 0px 50px 0px 0px;
 }
 
 #cargps_newaddress_info_cancelbutton{

@@ -107,6 +107,15 @@
 						<div class="send_notification" id="sent">
 							<span id="sent_header"><h2>Address Sent</h2></span>
 							<div style="float: right; padding: 15px 5px 0px">
+								
+								<script>
+									var dropdown_menu = '<select id="car_select" style="margin-right:20px;">';
+									$.each(myCars, function(car, email){
+										dropdown_menu = dropdown_menu+'<option value="'+car+'">'+car+"</option>";
+									});
+									dropdown_menu = dropdown_menu + "</option></select>";
+									document.write(dropdown_menu);
+								</script>
 								<input type="button" id="resend_button" value="Resend" />
 							</div>
 							<div id="resend_car_select" style="float: right; padding: 15px 5px 0px"></div>
