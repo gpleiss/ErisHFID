@@ -504,6 +504,7 @@ h1 {
 	background-image:url("images/arrow.png");
 	margin: 140px 20px 90px 0px;
 	margin-left:40px;
+	cursor:pointer;
 	
 }
 
@@ -512,6 +513,7 @@ h1 {
 	/*background-color:#b0cbec;*/
 	width:40px;
 	height:40px;
+	cursor:pointer;
 	/*border-radius:5px;*/
 	background-color:transparent;
 	background-image:url("images/yelp.png");
