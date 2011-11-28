@@ -60,7 +60,16 @@ $(document).ready(function() {
 			$('.gpsInner').hide();
 			// display map
 			$('#map').show();
-			//initialize();
+			// reset position of new search text bar
+			$('#searchTextDiv').css('top', '200px');
+			// slowly move it up
+			$('#searchTextDiv').animate({
+				top: '-=200'
+			}, 100, 'linear', function() {
+				// give focus to other search bar
+				$('#searchTextMap').focus();
+			});
+
 		}
 	});
 	
