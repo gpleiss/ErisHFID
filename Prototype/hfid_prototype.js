@@ -118,6 +118,8 @@ $(document).ready(function() {
 		$('#carList').append(newCarHtml);
 		$('#addCarDiv').hide();
 		$('#mainSettings').show();
+		$('#undoDelete').hide();
+		
 	});
 	
 	function carDelete(element, title){
@@ -138,6 +140,8 @@ $(document).ready(function() {
 		var title = $(this).attr("title");
 		var element = $(this);
 		carDelete(element, title);
+		// show the undo
+		$('#undoDelete').show();
 	});
 	
 	var car_email = myCars["Toyota"];
@@ -219,7 +223,7 @@ $(document).ready(function() {
 			$('#carList').append(newCarHtml);
 			$('#addCarDiv').hide();
 			$('#mainSettings').show();
-			
+			$('#undoDelete').hide();
 		});
 	});
 	
