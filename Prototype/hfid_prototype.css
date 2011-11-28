@@ -119,6 +119,7 @@ h1 {
 	width: 180px;
 	background-color: #B0CBEC;
 	float: left;
+	cursor:pointer; 
 }
 
 .car_name{
@@ -128,6 +129,7 @@ h1 {
 
 .car_email{
 	padding: 0px 8px 8px;
+	
 }
 
 .cardelete{
@@ -332,6 +334,7 @@ h1 {
 	background-color:#97e6e6;
 	text-align:center;
 	border-radius:5px;
+	cursor:pointer;
 }
 
 #email_cancel{
@@ -344,6 +347,7 @@ h1 {
 	background-color:#97e6e6;
 	text-align:center;
 	border-radius:5px;
+	cursor:pointer;
 }
 
 #email_changed{
@@ -359,7 +363,12 @@ h1 {
 	text-align:center;
 }
 
+#yelpAddress{
+	cursor:pointer;
+}
+
 #email_changed_ok{
+	cursor:pointer;
 	background-color:#B0CBEC;
 	width:150px;
 	height:35px;
@@ -467,6 +476,7 @@ h1 {
 	font-size:15px;
 	margin-bottom:20px;
 	/*float:right;*/
+	cursor:pointer;
 	margin-right:30px;
 }
 
@@ -538,16 +548,18 @@ h1 {
 	padding: 10px 10px 2px 8px;
 	background-color:#b0cbec;
 	text-align:center;
+	cursor:pointer;
 }
 
 #cargps_newaddress_info_cancelbutton{
-		border-radius:5px;
+	border-radius:5px;
 	width:70px;
 	height:30px;
 	margin:-52px 10px 10px 170px;
 	padding: 10px 10px 2px 8px;
 	background-color:#b0cbec;
 	text-align:center;
+	cursor:pointer;
 }	
 
 #yelp_buttons{
@@ -569,6 +581,7 @@ h1 {
 	width:25px;
 	height:25px;
 	margin-left:20px;
+	cursor:pointer;
 }
 
 .addressLink{
@@ -593,6 +606,10 @@ h1 {
 	height:60px;
 }
 
+#addCar{
+	cursor:pointer; 
+}
+
 #addCarDiv{
 	border-style:none;
 	background-color:white;
@@ -609,6 +626,7 @@ h1 {
 	width:70px;
 	height:30px;
 	margin-top:10px;
+	cursor:pointer; 
 }
 
 .send_notification{
@@ -664,6 +682,7 @@ h1 {
 }
 
 #main_menu_button{
+	cursor:pointer;
 	background-color:#b0cbec;
 	border-radius:5px;
 	text-align:center;
@@ -691,6 +710,7 @@ h1 {
 }
 
 #resend_button{
+	cursor:pointer; 
 	background-color:#b0cbec;
 	border-radius:5px;
 	border-style:none;

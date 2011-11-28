@@ -19,7 +19,7 @@
 </head>
 <body onload="startTime()">
 	<div id="instructions" class="flash">
-		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
+		<center><span id="instructionText">This is the first prototype for Team Eris's GPS Connect application. Please note that the back button on the phone does not work in this prototype.</span> <a id="swap" style="color:#562DFA;">Next</a><center>
 	</div>
 	
 	<div id="interface">
@@ -48,10 +48,10 @@
 							<input type="text" id="searchText" value="Search"/>
 						</center>
 						<div>
-							<div id="recentDestButton">
+							<div id="recentDestButton" style="cursor:pointer; ">
 								Recent Destination
 							</div>
-							<div id="settingsButton">
+							<div id="settingsButton" style="cursor:pointer; ">
 								Settings
 							</div>
 							<!--<input type="button" id="recentDestButton" value="Recent Destinations"/>-->
@@ -83,10 +83,10 @@
 					<div class="gpsInner" id="recentDest" style="display:none;">
 					<div style="font-size:17px;border-bottom: 3px solid black; text-align:center;">Recent Destinations</div>
 						<!-- Don't put addresses in recentAddress or else google places name search won't work-->
-						<div class="recentAddress" id="ra_olin" lat="42.293" lng="-71.264">
+						<div class="recentAddress" id="ra_olin" lat="42.293" lng="-71.264" style="cursor:pointer; ">
 							Olin College 
 						</div>
-						<div class="recentAddress" id="ra_olin" lat="42.292" lng="-71.235">
+						<div class="recentAddress" id="ra_olin" lat="42.292" lng="-71.235" style="cursor:pointer; ">
 							Trader Joes
 						</div>
 					</div>
@@ -239,7 +239,7 @@
 						}
 						</script>
 						<div id="home_header">
-							<span style="float:left;" class="gps_email" id="car_email_button">email address</span>
+							<span style="float:left;cursor:pointer; " class="gps_email" id="car_email_button">email address</span>
 							<span style="float:right;" id="txt"></span>
 						</div>
 						<div style="">
@@ -256,8 +256,8 @@
 						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
 						Music <img src="images/gpsmusic.jpg" style="margin:20px;"/></div>
 						
-						<div class="home_button" id="car_info_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
-						Car Info <img src="images/gpsinfo.jpg" style="margin-top:15px"/></div>
+						<div class="home_button" id="car_info_button" style="cursor:pointer; border-radius:5px;color:black;background-color:#b0cbec;">
+						Car Info <img src="images/gpsinfo.jpg" style="margin-top:15px; cursor:pointer; "/></div>
 						
 						<div class="home_button" style="border-radius:5px;color:black;background-color:#b0cbec;">
 						Settings<img src="images/gpssettings.jpg" style="margin-top:15px"/></div>
