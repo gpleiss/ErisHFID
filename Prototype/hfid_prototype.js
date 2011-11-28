@@ -477,6 +477,7 @@ $(document).ready(function() {
 		$('#back').click(function() {
 			closeYelpLinkPopup();
 		});
+		$('#back').css('cursor', 'pointer');
 	}
 	
 	$('#highlight').click(function(){
@@ -504,6 +505,7 @@ $(document).ready(function() {
 	function closeYelpLinkPopup() {
 		$('#yelpLinkPopup').hide();
 		$('#yelpLinkPopupBackground').fadeOut();
+		$('#back').css('cursor', 'default');
 	}
 	
 	// Open GPS connect from Yelp
