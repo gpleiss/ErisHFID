@@ -111,17 +111,24 @@ $(document).ready(function() {
 		$('#mainSettings').show();
 	});
 	
-	$('.cardelete').live('click', function(){
-		var p = $(this).attr("title");
-		var element = $(this);
+	function carDelete(element, title){
 		// find correct car and delete
 		$.each(myCars, function(car, email) {
-			if (myCars[car] == p) {
+			if (myCars[car] == title) {
 				myCars[car] = null;
+				console.log(title);
+				console.log(myCars[car]);
+				element.parent().next().remove();
 				element.parent().remove();
 			}
 		});
 		console.log(myCars);
+	}
+	
+	$('.cardelete').live('click', function(){
+		var title = $(this).attr("title");
+		var element = $(this);
+		carDelete(element, title);
 	});
 	
 	var car_email = myCars["Toyota"];
@@ -175,9 +182,36 @@ $(document).ready(function() {
 		$('#car_info').hide();
 	});
 	
-	$("#cargps_newaddress_info_gobutton").click(function(){
+	$("#cargps_newaddress_info_gobutton,#cargps_newaddress_info_cancelbutton").click(function(){
 		$('#cargps_home').show();
 		$('#cargps_newaddress').hide();
+	});
+	
+	$('.carbackground').live('click', function(){
+		var name = $(this).find('.car_name').html();
+		var email = $(this).find('.car_email').html();
+		var element = $(this).next();
+		
+		$('#mainSettings').hide();
+		$('#addCarDiv').show();
+		$('#newCarEmail').val(email);
+		$('#newCarAlias').val(name);
+		
+		// on clicking save, replace hash with current email
+		$('#saveCar').unbind('click');
+		$('#saveCar').click(function(){
+			var title = $(this).attr("title");
+			carDelete(element, email);
+			
+			var newCar = $('#newCarAlias').val();
+			var newCarEmail = $('#newCarEmail').val();
+			myCars[newCar] = newCarEmail;
+			newCarHtml = generateCarListEntryHtml(newCar, newCarEmail);
+			$('#carList').append(newCarHtml);
+			$('#addCarDiv').hide();
+			$('#mainSettings').show();
+			
+		});
 	});
 	
 	// google maps
@@ -388,6 +422,7 @@ $(document).ready(function() {
 			$('#sending_background').fadeOut();
 			$('#resend_button').click(function() {
 				$('#sent').hide();
+				$('#car_info').hide();
 				sendAddressToGPS(carToSendTo, marker, place, latlng, end, map, distance, duration);
 				// TODO: bug - resend name is undefined after 2 resends
 			});
