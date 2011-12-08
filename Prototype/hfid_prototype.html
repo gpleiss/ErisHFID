@@ -61,10 +61,11 @@
 				
 					<div class="gpsInner" id="settings" style="display:none;">
 						<div id="mainSettings">
-							Address Highlighting <br/>
-							<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications<br/>
-							<br/>
-							Cars
+							<h3>GPS Connect Plugin</h3> <br/>
+							<input type="checkbox" id="highlight" checked />This enables you to send addresses to your GPS from other applications. See example below.<br/>
+							<br /><img src="images/sample.JPG" width="180px">
+							<br/><br />
+							<h3>Cars</h3>
 							<div id="carList">
 								<div style="display:none; margin-bottom:10px;" id="undoDelete">Car has been deleted <a href="">Undo</a></div>
 							</div>
@@ -161,16 +162,12 @@
 					<div id="yelpbreakspace"></div>
 					<div id="yelp_address">
 						<table style="float: left;"><tr>
-							<td style="margin-right: 10px">
-								<b><span style="color: blue">Map</span></b>
+							<td style="margin-right: 30px">
+								<b><span style="color: blue">Address</span></b>
 							</td>
-							<td>
-								<a id="yelpAddress" class="addressLink">
-									958 Highland Ave Needham, MA 02494
-								</a>
-							</td>
-							<td>
-								<img src="images/logo.png" id="yelplogo" class="yelplogoLink"></img>
+							<td class="addressLink" id="yelpAddress">
+								<a id="yelpAddress" style="float: left; width: 130px;">958 Highland Ave Needham, MA 02494</a>
+								<img id="spotlogo" src="images/arrow.png" style="float:right; margin-left:20px;" width="30px" height="30px">
 							</td>
 						</tr></table>
 					</div>  					

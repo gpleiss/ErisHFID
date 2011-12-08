@@ -586,9 +586,24 @@ h1 {
 
 .addressLink{
 	font-size:12px;
-	background-color: yellow;
 	text-decoration:none;
-	text-align:center; 
+	text-align:left;
+	border-radius: 3px;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#167fe8), to(#345ebf));
+	background-image: -webkit-linear-gradient(top, #167fe8, #345ebf);
+	background-image: -moz-linear-gradient(top, #167fe8, #345ebf);
+	background-image: -o-linear-gradient(top, #167fe8, #345ebf);
+	background-image: -ms-linear-gradient(top, #167fe8, #345ebf);
+	background-image: linear-gradient(top, #167fe8, #345ebf);
+	-webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.75);
+	-moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.75);
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.75);
+	/*height:40px;
+	width:80px;*/
+	padding:7px 7px 7px 10px;
+	color:white;
+	margin:3px;
+	margin-left:10px;
 }
 
 #phonenumber{

@@ -1,6 +1,6 @@
 var myCars = {"Toyota":"toyo32aw3@toyota.com",
-			  "Honda":"accord320b@honda.com", 
-			  "Ford":"f2ab44b2@ford.com"};
+			  "Honda":"accord320b@honda.com"/*, 
+			  "Ford":"f2ab44b2@ford.com"*/};
 			  
 
 $(document).ready(function() {
@@ -463,46 +463,48 @@ $(document).ready(function() {
 		$('#cargps_newaddress_info_address').html('<h3>' + place.vicinity + '<br/>Distance: '+distance+'<br/>Estimated Time:'+duration+'</h3>');		
 	}
 	
-	function addressPopup(){
-		// Center the popup
-		var padding = parseInt($('#phone').css("padding-left"), 10);
-		var phoneScreenTop = $('#phone').position().top - padding;
-		var phoneScreenLeft = $('#phone').position().left - padding;
-		var phoneScreenWidth = $('#phone').width() + 2*padding;
-		var phoneScreenHeight = $('#phone').height() + 2*padding;
-		var popupWidth = $('#yelpLinkPopup').width();
-		var popupHeight = $('#yelpLinkPopup').height();
-		$("#yelpLinkPopup").css({  
-			"position": "absolute",  
-			"top": phoneScreenHeight/2-popupHeight/2 - padding,  
-			"left": phoneScreenWidth/2-popupWidth/2 - padding
-		});
-		$("#yelpLinkPopupBackground").css({
-			"position": "absolute",
-			"width": phoneScreenWidth,  
-			"height": phoneScreenHeight, 
-			"top": 0,  
-			"left": 0 
-		});
-		// Open popup
-		$('#yelpLinkPopup').show();
-		$('#yelpLinkPopupBackground').fadeIn();
-		$('#back').click(function() {
-			closeYelpLinkPopup();
-		});
-		$('#back').css('cursor', 'pointer');
-	}
+	//function addressPopup(){
+	//	// Center the popup
+	//	var padding = parseInt($('#phone').css("padding-left"), 10);
+	//	var phoneScreenTop = $('#phone').position().top - padding;
+	//	var phoneScreenLeft = $('#phone').position().left - padding;
+	//	var phoneScreenWidth = $('#phone').width() + 2*padding;
+	//	var phoneScreenHeight = $('#phone').height() + 2*padding;
+	//	var popupWidth = $('#yelpLinkPopup').width();
+	//	var popupHeight = $('#yelpLinkPopup').height();
+	//	$("#yelpLinkPopup").css({  
+	//		"position": "absolute",  
+	//		"top": phoneScreenHeight/2-popupHeight/2 - padding,  
+	//		"left": phoneScreenWidth/2-popupWidth/2 - padding
+	//	});
+	//	$("#yelpLinkPopupBackground").css({
+	//		"position": "absolute",
+	//		"width": phoneScreenWidth,  
+	//		"height": phoneScreenHeight, 
+	//		"top": 0,  
+	//		"left": 0 
+	//	});
+	//	// Open popup
+	//	$('#yelpLinkPopup').show();
+	//	$('#yelpLinkPopupBackground').fadeIn();
+	//	$('#back').click(function() {
+	//		closeYelpLinkPopup();
+	//	});
+	//	$('#back').css('cursor', 'pointer');
+	//}
 	
 	$('#highlight').click(function(){
 		// check if its checked
 		if ($('#highlight').is(':checked')){
 			$('#yelpAddress').addClass('addressLink');
 			$('#yelplogo').show();
+			$('#spotlogo').show();
 			$('#yelplogo').addClass('yelplogoLink');
 		}
 		else{
 			$('#yelpAddress').removeClass('addressLink');
 			$('#yelplogo').removeClass('yelplogoLink');
+			$('#spotlogo').hide();
 			$('#yelplogo').hide();
 		}
 	});
@@ -522,8 +524,7 @@ $(document).ready(function() {
 	}
 	
 	// Open GPS connect from Yelp
-	$('#gpsFromYelp').click(function() {
-		closeYelpLinkPopup();
+	$('#yelpAddress').click(function() {
 		$('#Yelp').fadeOut();
 		$('#GPSConnect').fadeIn();
 		$('#map').show();
